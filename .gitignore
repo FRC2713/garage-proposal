@@ -20,7 +20,7 @@ pnpm-debug.log*
 .env.local
 
 # local application data
-data/
+/data/
 
 # test output
 playwright-report/
