@@ -44,6 +44,12 @@ export const sections = [
       "Four phases, each ending with a usable space and a district check-in.",
   },
   {
+    slug: "model",
+    label: "3D model",
+    eyebrow: "3D model",
+    blurb: "Walk around the Option B layout in your browser.",
+  },
+  {
     slug: "gallery",
     label: "Gallery",
     eyebrow: "Gallery",

@@ -1,0 +1,26 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PageNav from "../components/PageNav.astro";
+import GarageViewer from "../components/islands/GarageViewer";
+import { img } from "../data/proposal";
+
+const modelUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/models/garage-option-b.glb`;
+---
+
+<AppLayout title="3D model | Garage robotics lab proposal">
+  <PageHeader slug="model" title="Explore the layout in 3D">
+    The same SketchUp model behind our renderings. Pick a view, or drag to look
+    around the garage, cage, Room 6, and classroom.
+  </PageHeader>
+
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <GarageViewer
+      client:load
+      modelUrl={modelUrl}
+      fallbackImage={img("01-aerial-cutaway-sw")}
+    />
+  </section>
+
+  <PageNav slug="model" />
+</AppLayout>
