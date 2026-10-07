@@ -37,6 +37,13 @@ export const sections = [
       "What the garage and adjoining rooms can hold, and how safety is designed in.",
   },
   {
+    slug: "research",
+    label: "Research",
+    eyebrow: "Research and case studies",
+    blurb:
+      "How top FRC teams get field time, how much space they use, and what they spend.",
+  },
+  {
     slug: "plan",
     label: "Phased plan",
     eyebrow: "Proposal",
@@ -267,5 +274,266 @@ export const gallery = [
   {
     file: "02-floor-plan-top",
     caption: "Plan view of the lab and adjacent rooms",
+  },
+];
+
+type Source = { label: string; url: string };
+
+/** Published examples of where successful FRC teams practice. */
+export const caseStudies: {
+  model: string;
+  summary: string;
+  teams: { name: string; place: string; body: string; sources: Source[] }[];
+}[] = [
+  {
+    model: "Inside the school or district",
+    summary:
+      "The model this proposal follows. Each example was built as a district facility, usually funded by a bond or state grant.",
+    teams: [
+      {
+        name: "1678 Citrus Circuits",
+        place: "Davis, CA",
+        body: "A 7,800 sq ft engineering and robotics center at Davis Senior High with a practice field, completed in 2023. A $3M state CTE facilities grant was matched by a local bond; total cost was reported at about $6M. The team has about 90 students.",
+        sources: [
+          {
+            label: "CA Dept. of Education",
+            url: "https://www.cde.ca.gov/nr/ne/yr26/yr26rel37.asp",
+          },
+          {
+            label: "ABC10",
+            url: "https://abc10.com/article/news/local/student-led-robotics-team-davis-new-facility/103-21897eeb-7b42-4d32-8365-210beca9d3aa",
+          },
+        ],
+      },
+      {
+        name: "1323 MadTown Robotics",
+        place: "Madera, CA",
+        body: "2026 world champions, their fourth title. The team moved into a new building on the Matilda Torres High School campus and draws students from three district high schools.",
+        sources: [
+          {
+            label: "Madera Tribune",
+            url: "https://maderatribune.com/es/?p=2673",
+          },
+          {
+            label: "Madera County EDC",
+            url: "https://maderacountyedc.com/madera-unified-robotics-team-repeats-as-world-champions-for-4th-title/",
+          },
+        ],
+      },
+      {
+        name: "180 S.P.A.M.",
+        place: "Stuart, FL",
+        body: "A 6,500 sq ft space at the Martin County school district offices with a full-size competition field. The team hosts other teams there.",
+        sources: [
+          {
+            label: "Team website",
+            url: "https://www.spamrobotics.org/robobics-center",
+          },
+        ],
+      },
+      {
+        name: "Fremont Union High School District",
+        place: "Cupertino, CA",
+        body: "A 14,500 sq ft robotics center at Cupertino High serving five campuses and up to 900 students, with a field and spectator seating. Funded by a 2022 bond and opened in September 2026. A multi-school center, not a single-school comparison.",
+        sources: [
+          {
+            label: "Hoodline",
+            url: "https://hoodline.com/2026/09/cupertino-high-debuts-14-500-square-foot-robotics-hub-for-five-campuses/",
+          },
+          {
+            label: "THE Journal",
+            url: "https://thejournal.com/articles/2025/05/22/california-district-to-build-new-robotics-facility-for-student-creativity-and-collaboration.aspx",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    model: "Off-site, team-controlled",
+    summary:
+      "Teams without school space rely on sponsors, rented buildings, or their own nonprofit.",
+    teams: [
+      {
+        name: "195 CyberKnights",
+        place: "Southington, CT",
+        body: "2024 New England District champions. Based at Southington High but largely self-funded, with a practice field in space donated by a sponsor.",
+        sources: [
+          {
+            label: "Patch",
+            url: "https://patch.com/connecticut/southington/cyberknights-finish-first-competition",
+          },
+          {
+            label: "CT Senate Republicans",
+            url: "https://ctsenaterepublicans.com/?p=21559",
+          },
+        ],
+      },
+      {
+        name: "6328 Mechanical Advantage",
+        place: "Littleton, MA",
+        body: "A community team run by a 501(c)(3) and drawing from several schools. It works out of a commercial R&D building.",
+        sources: [
+          {
+            label: "Team website",
+            url: "https://www.littletonrobotics.org/about-6328/",
+          },
+        ],
+      },
+      {
+        name: "Team 299",
+        place: "",
+        body: "A mentor reports paying about $30,000 a year in rent for team space.",
+        sources: [
+          {
+            label: "Chief Delphi",
+            url: "https://www.chiefdelphi.com/t/what-is-the-highest-budget-frc-team/407065?page=5",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    model: "Shared or makeshift",
+    summary:
+      "Teams book time on another group's field or share a room with other school uses.",
+    teams: [
+      {
+        name: "WPI Community Practice Field",
+        place: "Worcester, MA",
+        body: "A full-scale field open to all FRC teams by advance sign-up since 2023. It is the nearest shared field to Melrose.",
+        sources: [
+          {
+            label: "WPI",
+            url: "https://www.wpi.edu/k-12/robotics-resource-center/program-management",
+          },
+        ],
+      },
+      {
+        name: "Choate Robotics",
+        place: "Wallingford, CT",
+        body: "An FRC practice field in a gym shared with the archery team.",
+        sources: [
+          {
+            label: "Choate Robotics",
+            url: "https://robotics.choate.edu/our-spaces/",
+          },
+        ],
+      },
+      {
+        name: "6329 The Bucks' Wrath",
+        place: "Bucksport, ME",
+        body: "A small rural school that reached the Einstein finals in 2023 and 2026, supported by a $250,000 alumni STEM donation. Facility details were not found.",
+        sources: [
+          {
+            label: "Bangor Daily News",
+            url: "https://www.bangordailynews.com/2023/03/19/news/hancock/bucksport-robotics-team-success-joam40zk0w/",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+/** Approximate floor area for FRC spaces, smallest first. */
+export const spaceBenchmarks = [
+  {
+    space: "Typical classroom (reference)",
+    sqft: "≈ 900",
+    basis: "Rule of thumb",
+  },
+  {
+    space: "Half field with margins",
+    sqft: "≈ 1,000–1,400",
+    basis: "About 27 × 27 ft of carpet plus margins",
+  },
+  {
+    space: "Full field, carpet only",
+    sqft: "≈ 1,458",
+    basis: "27 × 54 ft; varies slightly by season",
+  },
+  {
+    space: "Full field with driver stations and equipment",
+    sqft: "≈ 2,800",
+    basis: "About 40 × 70 ft, per Chief Delphi",
+  },
+  {
+    space: "Working shop",
+    sqft: "≈ 3,000",
+    basis: "One team's planned shop, per Chief Delphi",
+  },
+  { space: "180 S.P.A.M. facility", sqft: "6,500", basis: "Team website" },
+  {
+    space: "1678 Citrus Circuits facility",
+    sqft: "7,800",
+    basis: "CA Dept. of Education",
+  },
+  {
+    space: "Fremont Union HSD center (five schools)",
+    sqft: "14,500",
+    basis: "News coverage",
+  },
+];
+
+export const spaceSources: Source[] = [
+  {
+    label: "Full-field practice facilities",
+    url: "https://www.chiefdelphi.com/t/full-field-practice-facilities-how/128477",
+  },
+  {
+    label: "Smallest possible practice field",
+    url: "https://www.chiefdelphi.com/t/what-is-the-smallest-possible-practice-field/469654",
+  },
+  {
+    label: "Ideal robot workspace",
+    url: "https://www.chiefdelphi.com/t/whats-your-ideal-robot-workspace/119771",
+  },
+];
+
+/** Suggested annual budget tiers drawn from published team figures. */
+export const budgetTiers = [
+  { tier: "Functional", amount: "≈ $15,000–30,000" },
+  {
+    tier: "Competitive district team that reaches Worlds",
+    amount: "≈ $50,000–80,000",
+  },
+  { tier: "Perennial world-level program", amount: "$150,000+" },
+];
+
+export const budgetPoints = [
+  {
+    who: "Mentor survey of other teams",
+    figure: "$10k–80k range",
+    note: "Varies with events attended, travel distance, and whether the school covers space and insurance",
+    url: "https://www.chiefdelphi.com/t/team-budget-per-season/145475",
+  },
+  {
+    who: "Unnamed competitive team",
+    figure: "$60k–80k a year",
+    note: "Only $20–25k on robot parts and tools; the rest is travel, registration, and away events",
+    url: "https://www.chiefdelphi.com/t/what-is-the-highest-budget-frc-team/407065",
+  },
+  {
+    who: "195 CyberKnights",
+    figure: "≈ $58k expenses (2024)",
+    note: "Nonprofit filing; $77.6k revenue",
+    url: "https://www.causeiq.com/organizations/cyberknights-robotics,923725101",
+  },
+  {
+    who: "1678 Citrus Circuits",
+    figure: "≈ $150k a year",
+    note: "Reported by LocalWiki Davis",
+    url: "https://localwiki.org/davis/Citrus_Circuits_Robotics",
+  },
+  {
+    who: "5727 Omegabytes",
+    figure: "$250k+ a year",
+    note: "Highest-budget team cited on Chief Delphi",
+    url: "https://www.chiefdelphi.com/t/what-is-the-highest-budget-frc-team/407065",
+  },
+  {
+    who: "2713 Red Hawk Robotics",
+    figure: "$80k+ in sponsorships",
+    note: "Record season, reported in local news",
+    url: "https://dev.localheadlinenews.com/?p=199040",
   },
 ];

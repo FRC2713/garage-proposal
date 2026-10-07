@@ -1,0 +1,278 @@
+---
+import { ExternalLink, Info, Ruler, Trophy, Wallet } from "lucide-react";
+import AppLayout from "../layouts/AppLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PageNav from "../components/PageNav.astro";
+import {
+  budgetPoints,
+  budgetTiers,
+  caseStudies,
+  spaceBenchmarks,
+  spaceSources,
+} from "../data/proposal";
+
+const findings = [
+  {
+    icon: Trophy,
+    title: "Field access",
+    body: "Nearly every top team practices on a full field regularly, but few have one inside their school. Those that do usually got it through a district facility funded by a bond or state grant.",
+  },
+  {
+    icon: Ruler,
+    title: "Floor space",
+    body: "A full field with room around it needs about 2,800 sq ft, and a working shop about 3,000 sq ft. Single-school facilities at top programs run 6,500–7,800 sq ft. The field sets the size, whatever the enrollment.",
+  },
+  {
+    icon: Wallet,
+    title: "Budgets",
+    body: "Competitive district teams typically spend $50,000–80,000 a year, and world-level programs $150,000 or more. Most of it goes to registration and travel, not the robot.",
+  },
+];
+
+const link =
+  "inline-flex items-center gap-1 underline decoration-foreground/30 underline-offset-2 hover:text-primary hover:decoration-primary";
+---
+
+<AppLayout title="Research | Garage robotics lab proposal">
+  <PageHeader
+    slug="research"
+    title="How successful teams practice"
+    image="04-field-from-east-aisle"
+  >
+    We looked at where top FRC teams build and drive, how much space they use,
+    and what they spend.
+  </PageHeader>
+
+  <section class="mx-auto max-w-6xl px-5 py-16">
+    <h2 class="text-xl font-semibold">What we found</h2>
+    <div class="mt-6 grid gap-4 md:grid-cols-3">
+      {
+        findings.map((f) => (
+          <div class="rounded-xl bg-card p-5 shadow-xs ring-1 ring-foreground/10">
+            <f.icon className="size-5 text-primary" aria-hidden="true" />
+            <h3 class="mt-3 font-semibold">{f.title}</h3>
+            <p class="mt-1 text-sm text-muted-foreground">{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="mt-6 flex gap-3 rounded-xl bg-muted p-5 text-sm text-muted-foreground"
+    >
+      <Info
+        className="mt-0.5 size-4 shrink-0 text-foreground"
+        aria-hidden="true"
+      />
+      <p>
+        No public dataset tracks FRC team facilities, so these findings come
+        from published examples, not a representative sample. We plan to survey
+        teams across the U.S. to fill the gap.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y bg-card">
+    <div class="mx-auto max-w-6xl px-5 py-16">
+      <h2 class="text-xl font-semibold">Case studies</h2>
+      <p class="mt-2 max-w-3xl text-muted-foreground">
+        Teams get field time in one of three ways. Mentors note that practicing
+        on a full field is something most teams can't do in-house.
+      </p>
+      <div class="mt-10 space-y-12">
+        {
+          caseStudies.map((group) => (
+            <div>
+              <h3 class="text-lg font-semibold">{group.model}</h3>
+              <p class="mt-1 text-sm text-muted-foreground">{group.summary}</p>
+              <div class="mt-5 grid gap-4 md:grid-cols-2">
+                {group.teams.map((t) => (
+                  <article class="flex flex-col rounded-xl bg-background p-5 ring-1 ring-foreground/10">
+                    <h4 class="font-semibold">
+                      {t.name}
+                      {t.place && (
+                        <span class="ml-2 text-sm font-normal text-muted-foreground">
+                          {t.place}
+                        </span>
+                      )}
+                    </h4>
+                    <p class="mt-2 flex-1 text-sm text-muted-foreground">
+                      {t.body}
+                    </p>
+                    <p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      {t.sources.map((s) => (
+                        <a href={s.url} class={link} rel="noopener">
+                          {s.label}
+                          <ExternalLink className="size-3" aria-hidden="true" />
+                        </a>
+                      ))}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-2">
+    <div>
+      <h2 class="text-xl font-semibold">How much space a field needs</h2>
+      <div class="mt-6 overflow-x-auto rounded-xl ring-1 ring-foreground/10">
+        <table class="w-full min-w-[28rem] text-left text-sm">
+          <thead class="bg-muted text-foreground">
+            <tr>
+              <th scope="col" class="px-4 py-3 font-semibold">Space</th>
+              <th scope="col" class="px-4 py-3 text-right font-semibold"
+                >Sq ft</th
+              >
+              <th scope="col" class="px-4 py-3 font-semibold">Basis</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y bg-card">
+            {
+              spaceBenchmarks.map((r) => (
+                <tr>
+                  <th scope="row" class="px-4 py-3 font-medium">
+                    {r.space}
+                  </th>
+                  <td class="px-4 py-3 text-right whitespace-nowrap tabular-nums">
+                    {r.sqft}
+                  </td>
+                  <td class="px-4 py-3 text-muted-foreground">{r.basis}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 text-xs text-muted-foreground">
+        Chief Delphi threads:{" "}
+        {
+          spaceSources.map((s, i) => (
+            <>
+              {i > 0 && " · "}
+              <a href={s.url} class={link} rel="noopener">
+                {s.label}
+              </a>
+            </>
+          ))
+        }
+      </p>
+    </div>
+    <div>
+      <h2 class="text-xl font-semibold">How our plan compares</h2>
+      <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+        <li>
+          The garage bay is about 60 × 48 ft, roughly the 2,800 sq ft a full
+          field with driver stations needs.
+        </li>
+        <li>
+          Mentors generally treat a little over half a field as the practical
+          minimum. A half field fails for games that score at opposite ends. The
+          3/4-scale field in Option B clears that bar.
+        </li>
+        <li>
+          Across the garage, cage, Room 6, and Room 3, the lab totals about
+          4,300 sq ft, below the 6,500–7,800 sq ft purpose-built facilities but
+          inside a building the district already owns.
+        </li>
+        <li>
+          FRC carpet comes in 15 ft rolls, and the border needs extra width on
+          each side of the 27 ft field, so carpet layout should be checked on
+          site.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-y bg-card">
+    <div class="mx-auto max-w-6xl px-5 py-16">
+      <h2 class="text-xl font-semibold">What teams spend</h2>
+      <div class="mt-6 grid gap-10 lg:grid-cols-[1fr_1.6fr]">
+        <dl class="space-y-3">
+          {
+            budgetTiers.map((b) => (
+              <div class="rounded-xl bg-background p-4 ring-1 ring-foreground/10">
+                <dt class="text-xs text-muted-foreground">{b.tier}</dt>
+                <dd class="mt-1 text-xl font-bold tracking-tight tabular-nums">
+                  {b.amount}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        <div class="overflow-x-auto rounded-xl ring-1 ring-foreground/10">
+          <table class="w-full min-w-[32rem] text-left text-sm">
+            <thead class="bg-muted text-foreground">
+              <tr>
+                <th scope="col" class="px-4 py-3 font-semibold">Team</th>
+                <th scope="col" class="px-4 py-3 font-semibold">Figure</th>
+                <th scope="col" class="px-4 py-3 font-semibold">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y bg-background">
+              {
+                budgetPoints.map((r) => (
+                  <tr>
+                    <th scope="row" class="px-4 py-3 font-medium">
+                      <a href={r.url} class={link} rel="noopener">
+                        {r.who}
+                      </a>
+                    </th>
+                    <td class="px-4 py-3 whitespace-nowrap tabular-nums">
+                      {r.figure}
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">{r.note}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-2">
+    <div>
+      <h2 class="text-xl font-semibold">What this means for Melrose</h2>
+      <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+        <li>
+          Red Hawk Robotics already raises money at the level of a competitive
+          district team. Compared with peers, the gap is space, not funding.
+        </li>
+        <li>
+          The closest models (Davis, Madera, and Martin County) each got a field
+          through a district facility. This proposal reaches a similar result by
+          reusing a building the district already owns.
+        </li>
+        <li>
+          A field on site avoids rent, which some teams pay at about $30,000 a
+          year, and cuts trips to shared fields such as WPI's. It also gives the
+          district a place for scrimmages and younger FIRST programs.
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-xl font-semibold">What we don't know yet</h2>
+      <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+        <li>
+          What share of teams have a field in their school, and how space varies
+          with enrollment. Our planned survey of U.S. teams will ask both.
+        </li>
+        <li>
+          Massachusetts funding routes for school facilities, such as state
+          school building or CTE grants.
+        </li>
+        <li>
+          Facility details for several other top teams, including 254, 2056,
+          4414, and 1538.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <PageNav slug="research" />
+</AppLayout>
