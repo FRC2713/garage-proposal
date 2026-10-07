@@ -1,0 +1,45 @@
+---
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { href, sections } from "../data/proposal";
+
+interface Props {
+  slug: string;
+}
+
+const i = sections.findIndex((s) => s.slug === Astro.props.slug);
+const prev = i > 0 ? sections[i - 1] : undefined;
+const next = i < sections.length - 1 ? sections[i + 1] : undefined;
+const link =
+  "group flex flex-1 flex-col gap-1 rounded-xl bg-card p-5 ring-1 ring-foreground/10 hover:ring-primary/60";
+---
+
+<nav aria-label="Previous and next section" class="border-t">
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 sm:flex-row">
+    {
+      prev ? (
+        <a href={href(prev.slug)} class={link}>
+          <span class="flex items-center gap-1 text-xs text-muted-foreground">
+            <ArrowLeft className="size-3.5" aria-hidden="true" /> Previous
+          </span>
+          <span class="font-semibold group-hover:text-primary">
+            {prev.label}
+          </span>
+        </a>
+      ) : (
+        <span class="hidden flex-1 sm:block" />
+      )
+    }
+    {
+      next && (
+        <a href={href(next.slug)} class={`${link} sm:items-end sm:text-right`}>
+          <span class="flex items-center gap-1 text-xs text-muted-foreground">
+            Next <ArrowRight className="size-3.5" aria-hidden="true" />
+          </span>
+          <span class="font-semibold group-hover:text-primary">
+            {next.label}
+          </span>
+        </a>
+      )
+    }
+  </div>
+</nav>

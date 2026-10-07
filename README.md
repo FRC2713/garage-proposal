@@ -1,6 +1,6 @@
 # Garage robotics lab proposal
 
-A one-page proposal website from Red Hawk Robotics (FRC Team 2713) to the Superintendent of Schools in Melrose, Massachusetts, asking to convert the garage into a robotics lab. It has an executive summary, an analysis of the space, a phased plan, and a gallery of concept renderings.
+A proposal website from Red Hawk Robotics (FRC Team 2713) to the Superintendent of Schools in Melrose, Massachusetts, asking to convert the garage into a robotics lab. It has an executive summary, an analysis of the space, a phased plan, and a gallery of concept renderings.
 
 Live site: <https://frc2713.github.io/garage-proposal/>
 
@@ -8,8 +8,9 @@ Built from [`FRC2713/hawk-app-template`](https://github.com/FRC2713/hawk-app-tem
 
 ## Edit the content
 
-- Page text and data: `src/pages/index.astro` (the lists at the top hold the stats, spaces, safety items, phases, and gallery captions).
-- Header and footer: `src/layouts/AppLayout.astro`.
+- Shared data: `src/data/proposal.ts` holds the section list, stats, spaces, safety items, phases, gallery captions, and requests.
+- One page per section in `src/pages/`: `index` (overview), `summary`, `analysis`, `plan`, `gallery`, `request`.
+- Header, section nav, and footer: `src/layouts/AppLayout.astro`. Page banners and previous/next links: `src/components/`.
 - Renderings: `public/images/`. They come from the SketchUp model `frc2713_shop.skp`, Option B.
 - Visual rules: `docs/BRANDING.md`.
 

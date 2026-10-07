@@ -1,0 +1,40 @@
+---
+import { img, sections } from "../data/proposal";
+
+interface Props {
+  slug: string;
+  title: string;
+  image?: string;
+}
+
+const { slug, title, image } = Astro.props;
+const section = sections.find((s) => s.slug === slug);
+---
+
+<section class="relative isolate overflow-hidden bg-foreground text-white">
+  {
+    image && (
+      <>
+        <img
+          src={img(image)}
+          alt=""
+          class="absolute inset-0 -z-10 size-full object-cover opacity-30"
+        />
+        <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/85 via-black/65 to-black/30" />
+      </>
+    )
+  }
+  <div class="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+    <p class="text-xs font-semibold tracking-[0.18em] text-white/75 uppercase">
+      {section?.eyebrow}
+    </p>
+    <h1
+      class="mt-3 max-w-3xl text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
+    >
+      {title}
+    </h1>
+    <div class="mt-4 max-w-2xl text-lg text-white/85">
+      <slot />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PageNav from "../components/PageNav.astro";
+import { requests } from "../data/proposal";
+---
+
+<AppLayout title="Our request | Garage robotics lab proposal">
+  <PageHeader
+    slug="request"
+    title="Three decisions to get started"
+    image="07-fabrication-cage"
+  >
+    We are not asking to start construction. We are asking to begin the
+    conversation and the low-risk first steps.
+  </PageHeader>
+
+  <section class="mx-auto max-w-3xl px-5 py-16">
+    <ol class="space-y-4">
+      {
+        requests.map((t, i) => (
+          <li class="flex gap-4 rounded-xl bg-card p-5 shadow-xs ring-1 ring-foreground/10">
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+              {i + 1}
+            </span>
+            <span class="leading-relaxed">{t}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-8 text-sm text-muted-foreground">
+      Questions about this proposal can go to the Red Hawk Robotics mentor team.
+      We would welcome the chance to walk the space with you.
+    </p>
+  </section>
+
+  <PageNav slug="request" />
+</AppLayout>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { href, sections } from "../data/proposal";
 
 interface Props {
   title: string;
@@ -12,17 +13,14 @@ const {
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-const nav = [
-  { href: "#summary", label: "Summary" },
-  { href: "#analysis", label: "Analysis" },
-  { href: "#plan", label: "Phased plan" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#ask", label: "Our request" },
-];
+const nav = sections
+  .slice(1)
+  .map((s) => ({ href: href(s.slug), label: s.label }));
+const here = Astro.url.pathname.replace(/\/?$/, "/");
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,11 +44,11 @@ const nav = [
       class="sticky top-0 z-40 border-b bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/75"
     >
       <div
-        class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3"
+        class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-3 md:flex-row md:items-center md:justify-between md:gap-4"
       >
         <a
-          href="#top"
-          class="flex items-center gap-3 text-foreground no-underline"
+          href={href("")}
+          class="flex shrink-0 items-center gap-3 text-foreground no-underline"
         >
           <span
             aria-hidden="true"
@@ -66,14 +64,15 @@ const nav = [
             >
           </span>
         </a>
-        <nav aria-label="Sections" class="hidden md:block">
-          <ul class="flex items-center gap-1">
+        <nav aria-label="Sections" class="-mx-2 overflow-x-auto">
+          <ul class="flex items-center gap-1 px-2">
             {
               nav.map((item) => (
                 <li>
                   <a
                     href={item.href}
-                    class="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                    aria-current={here === item.href ? "page" : undefined}
+                    class="block rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-muted-foreground hover:bg-muted hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:text-accent-foreground"
                   >
                     {item.label}
                   </a>
