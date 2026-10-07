@@ -33,13 +33,15 @@ export const sections = [
     slug: "analysis",
     label: "Analysis",
     eyebrow: "Analysis",
-    blurb: "What the garage and adjoining rooms can hold, and how safety is designed in.",
+    blurb:
+      "What the garage and adjoining rooms can hold, and how safety is designed in.",
   },
   {
     slug: "plan",
     label: "Phased plan",
     eyebrow: "Proposal",
-    blurb: "Four phases, each ending with a usable space and a district check-in.",
+    blurb:
+      "Four phases, each ending with a usable space and a district check-in.",
   },
   {
     slug: "gallery",
