@@ -1,0 +1,99 @@
+---
+import {
+  currentRooms,
+  labArea,
+  program,
+  roundArea,
+  spaceStandards,
+} from "../data/proposal";
+
+const frcStudents = parseInt(program[1]!.value);
+const perStandard = spaceStandards.map((s) => s.perPerson);
+const minPer = Math.min(...perStandard);
+const maxPer = Math.max(...perStandard);
+const axisMax = 140;
+const pct = (v: number) => `${(Math.min(v, axisMax) / axisMax) * 100}%`;
+
+const rows = [
+  {
+    label: "Today: Rooms 3 and 6",
+    detail: `${currentRooms.people}+ people in ≈ ${roundArea(currentRooms.sqft).toLocaleString("en-US")} sq ft`,
+    value: Math.round(currentRooms.sqft / currentRooms.people),
+    current: true,
+  },
+  {
+    label: "Proposed lab",
+    detail: `${frcStudents} FRC students in ≈ ${roundArea(labArea).toLocaleString("en-US")} sq ft`,
+    value: Math.round(labArea / frcStudents),
+    current: false,
+  },
+];
+---
+
+<figure class="rounded-xl bg-card p-5 ring-1 ring-foreground/10">
+  <figcaption class="text-sm font-semibold">
+    Floor area per person, in sq ft
+  </figcaption>
+  <p class="mt-1 text-xs text-muted-foreground">
+    The shaded band spans the shop and lab standards in the table below:{" "}
+    {minPer} to {maxPer} sq ft per student.
+  </p>
+  <div class="mt-5 space-y-5">
+    {
+      rows.map((r) => (
+        <div class="grid gap-2 sm:grid-cols-[11rem_1fr] sm:items-center sm:gap-4">
+          <div class="text-sm">
+            <span class="font-medium">{r.label}</span>
+            <span class="block text-xs text-muted-foreground">{r.detail}</span>
+          </div>
+          <div class="relative h-8">
+            <div class="absolute inset-x-0 top-1/2 h-px bg-border" />
+            <div
+              class="absolute inset-y-0 rounded bg-muted"
+              style={`left: ${pct(minPer)}; right: calc(100% - ${pct(maxPer)})`}
+            />
+            {perStandard.map((v) => (
+              <div
+                class="absolute inset-y-1 w-px bg-muted-foreground/40"
+                style={`left: ${pct(v)}`}
+              />
+            ))}
+            <div
+              class:list={[
+                "absolute top-1/2 h-1 -translate-y-1/2 rounded-full",
+                r.current ? "bg-primary" : "bg-foreground",
+              ]}
+              style={`left: 0; width: ${pct(r.value)}`}
+            />
+            <div
+              title={`${r.label}: about ${r.value} sq ft per person`}
+              class:list={[
+                "absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-card",
+                r.current ? "bg-primary" : "bg-foreground",
+              ]}
+              style={`left: ${pct(r.value)}`}
+            />
+            <span
+              class="absolute top-1/2 ml-3 -translate-y-1/2 rounded bg-card px-1 text-sm font-bold tabular-nums"
+              style={`left: ${pct(r.value)}`}
+            >
+              {r.value}
+            </span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div
+    class="relative mt-1 h-5 text-xs text-muted-foreground tabular-nums sm:ml-[12rem]"
+    aria-hidden="true"
+  >
+    {
+      [0, minPer, maxPer].map((v) => (
+        <span class="absolute -translate-x-1/2" style={`left: ${pct(v)}`}>
+          {v}
+        </span>
+      ))
+    }
+  </div>
+</figure>

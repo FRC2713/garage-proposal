@@ -14,36 +14,48 @@ const views = [
   {
     id: "overview",
     label: "Overview",
+    description:
+      "The whole lab from above with the roof removed: the practice field and mezzanine in the garage bay, the fabrication cage, Room 6, and Room 3.",
     eye: ft(420, 355, 95),
     target: ft(462, 418, 0),
   },
   {
     id: "field",
     label: "Practice field",
+    description:
+      "The 3/4-scale practice field in the garage bay, with its polycarbonate perimeter and driver stations.",
     eye: ft(489, 406, 13),
     target: ft(460, 438, 1),
   },
   {
     id: "mezzanine",
     label: "Mezzanine",
+    description:
+      "The existing mezzanine and racking, reused for lab storage, with metal prep underneath beside the cage.",
     eye: ft(438, 447, 17),
     target: ft(474, 420, 0),
   },
   {
     id: "cage",
     label: "Fabrication cage",
+    description:
+      "The fenced fabrication cage: CO2 laser, CNC press brake, two desktop CNC routers, and MetalFab behind a laser curtain, with ducted exhaust.",
     eye: ft(449, 411, 40),
     target: ft(446, 395, 0),
   },
   {
     id: "room6",
     label: "Room 6",
+    description:
+      "Room 6 for build and assembly: assembly table, workbenches, electronics bench, enclosed 3D printer bay, deburr booth, and battery charging.",
     eye: ft(429, 417, 40),
     target: ft(425, 400, 0),
   },
   {
     id: "classroom",
-    label: "Classroom",
+    label: "Room 3",
+    description:
+      "Room 3 as a classroom: six work tables, a six-seat CAD bench, and a teaching wall with whiteboards and an 86-inch display.",
     eye: ft(489, 406, 38),
     target: ft(488, 395, 0),
   },
@@ -184,8 +196,8 @@ export default function GarageViewer({
         ))}
       </div>
       <div
-        className="relative aspect-[4/3] w-full bg-[#eef0f2] sm:aspect-video"
-        aria-label="Interactive 3D model of the Option B garage layout. Drag to orbit, scroll or pinch to zoom, right-drag to pan."
+        className="relative h-[70vh] max-h-[56rem] min-h-80 w-full bg-[#eef0f2]"
+        aria-label="Interactive 3D model of the proposed garage layout. Drag to orbit, scroll or pinch to zoom, right-drag to pan."
         role="img"
       >
         <Canvas
@@ -200,7 +212,7 @@ export default function GarageViewer({
           fallback={
             <img
               src={fallbackImage}
-              alt="Rendering of the Option B garage layout"
+              alt="Rendering of the proposed garage layout"
               className="size-full object-cover"
             />
           }
@@ -235,11 +247,13 @@ export default function GarageViewer({
             onArrive={() => setFlying(false)}
           />
         </Canvas>
+        <p className="pointer-events-none absolute right-3 bottom-3 rounded-md bg-background/80 px-2 py-1 text-xs text-muted-foreground">
+          Drag to look around
+        </p>
         <LoadingOverlay />
       </div>
-      <p className="border-t px-4 py-3 text-xs text-muted-foreground">
-        Drag to orbit · scroll or pinch to zoom · right-drag or two-finger drag
-        to pan. Roof removed to show the interior.
+      <p aria-live="polite" className="border-t px-4 py-3 text-sm">
+        {views.find((v) => v.id === view)!.description}
       </p>
     </div>
   );

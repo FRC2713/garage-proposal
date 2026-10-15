@@ -2,7 +2,9 @@
 import AppLayout from "../layouts/AppLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import PageNav from "../components/PageNav.astro";
-import { requests } from "../data/proposal";
+import { href, phases, requests } from "../data/proposal";
+
+const first = phases[0]!;
 ---
 
 <AppLayout title="Our request | Garage robotics lab proposal">
@@ -28,6 +30,18 @@ import { requests } from "../data/proposal";
         ))
       }
     </ol>
+    <div class="mt-8 rounded-xl bg-muted p-5 text-sm">
+      <h2 class="font-semibold">What happens after a yes</h2>
+      <p class="mt-1 text-muted-foreground">
+        <a
+          href={href("plan")}
+          class="underline decoration-foreground/30 underline-offset-2 hover:text-primary hover:decoration-primary"
+          >Phase {first.n}: {first.title.toLowerCase()}</a
+        >. No physical work starts until it produces {
+          first.outcome.charAt(0).toLowerCase() + first.outcome.slice(1)
+        }
+      </p>
+    </div>
     <p class="mt-8 text-sm text-muted-foreground">
       Questions about this proposal can go to the Red Hawk Robotics mentor team.
       We would welcome the chance to walk the space with you.

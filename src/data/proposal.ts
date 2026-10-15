@@ -34,7 +34,14 @@ export const sections = [
     label: "Analysis",
     eyebrow: "Analysis",
     blurb:
-      "What the garage and adjoining rooms can hold, and how safety is designed in.",
+      "Why the team has outgrown its rooms, and how the garage and adjoining rooms would be laid out.",
+  },
+  {
+    slug: "gallery",
+    label: "Gallery",
+    eyebrow: "Gallery",
+    blurb:
+      "Concept renderings of the proposed layout, plus a 3D model you can walk around.",
   },
   {
     slug: "research",
@@ -48,19 +55,7 @@ export const sections = [
     label: "Phased plan",
     eyebrow: "Proposal",
     blurb:
-      "Four phases, each ending with a usable space and a district check-in.",
-  },
-  {
-    slug: "model",
-    label: "3D model",
-    eyebrow: "3D model",
-    blurb: "Walk around the Option B layout in your browser.",
-  },
-  {
-    slug: "gallery",
-    label: "Gallery",
-    eyebrow: "Gallery",
-    blurb: "Concept renderings of the Option B layout.",
+      "Four phases, each ending with a district check-in, with safety controls arriving as each space opens.",
   },
   {
     slug: "request",
@@ -79,7 +74,7 @@ export const benefits = [
   {
     icon: Box,
     title: "For the district",
-    body: "Existing storage structures stay in use, and an underused space becomes a learning space.",
+    body: "The existing mezzanine and racks are reused, and an underused space becomes a learning space.",
   },
   {
     icon: ShieldCheck,
@@ -94,48 +89,262 @@ export const benefits = [
 ];
 
 export const requests = [
-  "Approve Red Hawk Robotics' use of the garage, cage, Room 6, and Room 3 as a robotics lab, subject to a use agreement.",
-  "Schedule a walkthrough with your office and facilities to confirm what storage stays and what moves.",
+  "Approve Red Hawk Robotics' continued use of Rooms 3 and 6, and its use of the garage and cage, as one robotics lab, subject to a use agreement.",
+  "Schedule a walkthrough with your office and facilities to plan how and when district storage moves out.",
   "Authorize Phase 1, so the team and district can draft the safety plan and agreement together.",
+];
+
+/** The size of the program the lab would serve. */
+export const program = [
+  {
+    value: "102+",
+    label: "Students across all Red Hawk Robotics teams",
+  },
+  {
+    value: "45+",
+    label: "Students on the FRC team, up 20 from last year",
+  },
+  {
+    value: "20+",
+    label: "Mentors working with the FRC team",
+  },
+  {
+    value: "10 hrs",
+    label: "Average weekly time per FRC mentor in build season; some give 40",
+  },
+];
+
+/** The teams in the program, by FIRST level. */
+export const programTeams = [
+  {
+    count: "1",
+    name: "FRC team",
+    note: "FIRST Robotics Competition",
+  },
+  { count: "3", name: "FTC teams", note: "FIRST Tech Challenge" },
+  { count: "6–7", name: "FLL teams", note: "FIRST LEGO League" },
 ];
 
 export const stats = [
   {
+    value: "102+",
+    label: "Students in Red Hawk Robotics' FRC, FTC, and FLL teams",
+  },
+  {
     value: "≈ 4,300 sq ft",
-    label: "Lab floor area across garage, cage, Room 6, and Room 3",
+    label: "Lab floor area across the garage, cage, Room 6, and Room 3",
   },
   {
     value: "3/4-scale",
-    label: "FRC practice field with polycarbonate perimeter",
+    label: "FRC practice field on site, with a polycarbonate perimeter",
   },
-  { value: "400 sq ft", label: "Existing mezzanine kept in place" },
-  { value: "4 phases", label: "Staged so each step stands on its own" },
+  { value: "4 phases", label: "Each ends with a district check-in" },
 ];
 
-export const spaces = [
+/** Lab spaces. `ft` is width × depth from the SketchUp model, to confirm on site. */
+export const spaces: {
+  key: string;
+  name: string;
+  ft: [number, number];
+  use: string;
+  icon: typeof Trophy;
+}[] = [
   {
+    key: "garage",
     name: "Garage bay",
-    size: "60 × 48 ft",
+    ft: [60, 48],
     use: "3/4-scale practice field, driver stations, metal prep under the existing mezzanine, sheet breakdown and cut stations.",
     icon: Trophy,
   },
   {
+    key: "cage",
     name: "Fabrication cage",
-    size: "21 × 19 ft",
+    ft: [21, 19],
     use: "CO2 laser, CNC press brake, two desktop CNC routers, and MetalFab behind a laser curtain with a rated vision panel and ducted exhaust.",
     icon: Flame,
   },
   {
+    key: "room-6",
     name: "Room 6: build and assembly",
-    size: "19 × 30 ft",
+    ft: [19, 30],
     use: "Assembly table, workbenches, electronics bench with fume extraction, enclosed 3D printer bay, deburr booth, and battery charging.",
     icon: Wrench,
   },
   {
+    key: "room-3",
     name: "Room 3: classroom",
-    size: "24 × 18 ft",
+    ft: [24, 18],
     use: "Six work tables, a six-seat CAD bench, teaching wall with whiteboards and an 86-inch display.",
     icon: GraduationCap,
+  },
+];
+
+/**
+ * The rooms on the side-by-side plan (LayoutPlan.astro). `existing` places the
+ * marker on the 2019 school floor plan crop (image pixels); `proposed` places
+ * it on the SketchUp plan view, in inches from its top-left corner.
+ */
+export const planRooms = [
+  {
+    key: "garage",
+    mark: "G",
+    name: "Garage bay",
+    schoolName: "Garage",
+    use: "Practice field, driver stations, and metal prep under the existing mezzanine",
+    inLab: true,
+    existing: [710, 235],
+    proposed: [680, 470],
+  },
+  {
+    key: "cage",
+    mark: "C",
+    name: "Cage",
+    schoolName: "Unlabeled room off the garage",
+    use: "Fabrication: laser, press brake, CNC routers",
+    inLab: true,
+    existing: [605, 330],
+    proposed: [374, 717],
+  },
+  {
+    key: "room-6",
+    mark: "6",
+    name: "Room 6",
+    schoolName: "Unlabeled room west of the cage",
+    use: "Build and assembly",
+    inLab: true,
+    existing: [500, 310],
+    proposed: [131, 660],
+  },
+  {
+    key: "room-3",
+    mark: "3",
+    name: "Room 3",
+    schoolName: "West part of the room marked Robotics",
+    use: "Classroom and CAD",
+    inLab: true,
+    existing: [828, 294],
+    proposed: [879, 720],
+  },
+  {
+    key: "room-1",
+    mark: "1",
+    name: "Room 1",
+    inLab: false,
+    existing: [685, 354],
+    proposed: [559, 720],
+  },
+  {
+    key: "room-2",
+    mark: "2",
+    name: "Room 2",
+    inLab: false,
+    existing: [738, 310],
+    proposed: [675, 676],
+  },
+  {
+    key: "room-4",
+    mark: "4",
+    name: "Room 4",
+    inLab: false,
+    existing: [913, 210],
+    proposed: [1075, 310],
+  },
+  {
+    key: "room-5",
+    mark: "5",
+    name: "Room 5",
+    inLab: false,
+    existing: [500, 160],
+    proposed: [115, 350],
+  },
+];
+
+const area = (key: string) => {
+  const [w, d] = spaces.find((s) => s.key === key)!.ft;
+  return w * d;
+};
+
+/** "60 × 48 ft" for a space. */
+export const size = (s: { ft: [number, number] }) =>
+  `${s.ft[0]} × ${s.ft[1]} ft`;
+
+/** Model area rounded to the nearest 100 sq ft, for prose. */
+export const roundArea = (sqft: number) => Math.round(sqft / 100) * 100;
+
+/** Floor area of the rooms the team uses today and of the proposed lab. */
+export const currentRooms = {
+  sqft: area("room-3") + area("room-6"),
+  people: 30,
+};
+export const garageArea = area("garage");
+export const labArea = spaces.reduce((sum, s) => sum + s.ft[0] * s.ft[1], 0);
+
+/**
+ * Minimum floor area per student for shop and lab work. Working numbers for
+ * discussion: the Massachusetts building code's own table and how each room is
+ * classified are still to be confirmed with the building inspector and fire
+ * department.
+ */
+export const spaceStandards: {
+  benchmark: string;
+  perPerson: number;
+  kind: string;
+  source: Source;
+}[] = [
+  {
+    benchmark: "Shop or vocational room",
+    perPerson: 50,
+    kind: "Fire and building code (NFPA 101 and IBC)",
+    source: {
+      label: "NSTA on NFPA 101",
+      url: "https://static.nsta.org/pdfs/overcrowdingintheinstructionalspace.pdf",
+    },
+  },
+  {
+    benchmark: "Combined classroom and lab, 24 students at most",
+    perPerson: 60,
+    kind: "Safety recommendation (NSTA)",
+    source: {
+      label: "NSTA position",
+      url: "https://static.nsta.org/pdfs/overcrowdingintheinstructionalspace.pdf",
+    },
+  },
+  {
+    benchmark: "Heavy-equipment lab, such as a metal or wood shop",
+    perPerson: 75,
+    kind: "State guideline (Louisiana)",
+    source: {
+      label: "LAC 28:CXV-3101",
+      url: "https://regulations.justia.com/states/louisiana/title-28/part-cxv/chapter-31/section-cxv-3101",
+    },
+  },
+  {
+    benchmark: "Medium vocational shop: woodworking, metalworking, electronics",
+    perPerson: 120,
+    kind: "MSBA space template, as used by Boston Public Schools (2023)",
+    source: {
+      label: "BPS capacity report",
+      url: "https://search.boston.gov/sites/default/files/file/2024/01/Boston%20PK-12%20PS_Capacity%20Report%20-%20Final.pdf",
+    },
+  },
+];
+
+export const spaceContextSources: Source[] = [
+  {
+    label: "IBC Table 1004.5",
+    url: "https://www.umsystem.edu/ums/fa/facilities/um-system-ahj-code-determination-16r",
+  },
+  {
+    label: "NSTA: 2020 national lab study",
+    url: "https://www.nsta.org/blog/safer-engineering-instruction-k-12-labs-and-makerspaces-results-2020-national-study",
+  },
+  {
+    label: "Georgia DOE guideline (2012)",
+    url: "https://sparchives.gadoe.org/Finance-and-Business-Operations/Facilities-Services/Documents/4%20%20Guideline%20for%20Square%20Footage%20Requirements.pdf",
+  },
+  {
+    label: "Maine DOE guidelines (Oct 2025)",
+    url: "https://www.maine.gov/doe/sites/maine.gov.doe/files/inline-files/School%20Facilities%20-%20Space%20Allocation%20Guidelines%20-%2010.22.2025.pdf",
   },
 ];
 
@@ -148,7 +357,7 @@ export const comparison = [
   {
     topic: "Existing mezzanine and pallet racking",
     storage: "In use for storage",
-    lab: "Kept in place; storage can be consolidated onto them",
+    lab: "Kept and reused for lab stock and materials",
   },
   {
     topic: "Practice field",
@@ -167,17 +376,6 @@ export const comparison = [
   },
 ];
 
-export const safety = [
-  "Laser and metal fabrication isolated in a fenced cage with a rolling slide gate, laser curtain, and laser-rated vision panel",
-  "Ducted exhaust from the cage to a roof fan; fume extraction at the electronics bench and MetalFab",
-  "Emergency stops and a shop disconnect at the garage, plus eyewash, first aid, and a drench shower",
-  "ABC extinguishers throughout and a Class D extinguisher beside the aluminum chip drum",
-  "Chip and spark screens at metal prep and the deburr booth; dust collection with a cyclone for wood",
-  "Hinged gates on three sides of the field and a marked cross-field egress lane",
-  "Battery charging on a spill tray, away from fabrication",
-  "PPE cabinet and safety stations at every entry",
-];
-
 export const phases = [
   {
     n: 1,
@@ -186,10 +384,11 @@ export const phases = [
     icon: ClipboardCheck,
     goals: [
       "Walk the garage with the superintendent's office and facilities",
-      "Confirm which stored items must stay, move, or be surplused",
+      "Inventory district storage and agree on a schedule to move it out or surplus it",
       "Review fire, building, and insurance requirements",
       "Agree on access hours, adult supervision, and a written safety plan",
     ],
+    safety: [],
     outcome: "A signed use agreement and a punch list everyone has seen.",
   },
   {
@@ -198,9 +397,15 @@ export const phases = [
     timing: "First phase of physical work",
     icon: Warehouse,
     goals: [
-      "Consolidate remaining district storage onto the mezzanine and existing racks",
+      "Consolidate district storage into one area of the racks and mezzanine",
       "Clean and mark the floor; post safety stations and egress routes",
       "Set up Room 3 as a classroom and design space",
+    ],
+    safety: [
+      "PPE cabinet and safety stations at every entry",
+      "Self-contained eyewash stations, which need no plumbing, and first aid kits",
+      "ABC extinguishers throughout",
+      "Marked egress routes kept clear of storage",
     ],
     outcome:
       "Students can meet, design, and plan in the space with no new utilities.",
@@ -214,6 +419,13 @@ export const phases = [
       "Install field carpet, polycarbonate perimeter, and driver stations",
       "Fit out Room 6 with benches, assembly table, and battery charging",
       "Move hand tools and low-risk equipment in",
+      "Move out the next share of district storage and use the freed racks for lab stock",
+    ],
+    safety: [
+      "Hinged gates on three sides of the field and a marked cross-field egress lane",
+      "Battery charging on a spill tray, away from fabrication",
+      "Portable fume extraction at the electronics bench",
+      "Chip screens at the deburr booth",
     ],
     outcome:
       "The team can build and drive robots on site through build season.",
@@ -227,16 +439,70 @@ export const phases = [
       "Licensed electrical work and the cage exhaust to the roof",
       "Install the fence, laser curtain, and vision panel",
       "Commission the laser, press brake, and CNC machines with written procedures",
+      "Finish phasing out district storage as agreed",
+    ],
+    safety: [
+      "Laser and metal fabrication isolated in a fenced cage with a rolling slide gate, laser curtain, and laser-rated vision panel",
+      "Ducted exhaust from the cage to a roof fan, and fume extraction at the MetalFab",
+      "Emergency stops and a shop disconnect at the garage",
+      "Chip and spark screens at metal prep, and dust collection with a cyclone for wood",
+      "A Class D extinguisher beside the aluminum chip drum",
     ],
     outcome:
       "Students learn modern manufacturing in a controlled, supervised zone.",
   },
 ];
 
+/**
+ * What happens to each space in each phase, for the plan's schedule chart.
+ * One entry per phase 1–4; null means no change in that phase. Taken from the
+ * phase goals above.
+ */
+export const phaseSchedule: {
+  space: string;
+  steps: (null | { label: string; kind: "prep" | "open" | "storage" })[];
+}[] = [
+  {
+    space: "Room 3",
+    steps: [null, { label: "Set up as classroom", kind: "open" }, null, null],
+  },
+  {
+    space: "Room 6",
+    steps: [null, null, { label: "Benches and charging", kind: "open" }, null],
+  },
+  {
+    space: "Garage bay",
+    steps: [
+      { label: "Walkthrough", kind: "prep" },
+      { label: "Floor cleaned and marked", kind: "prep" },
+      { label: "Practice field", kind: "open" },
+      null,
+    ],
+  },
+  {
+    space: "Cage",
+    steps: [
+      null,
+      null,
+      null,
+      { label: "Fabrication after permits", kind: "open" },
+    ],
+  },
+  {
+    space: "District storage",
+    steps: [
+      { label: "Inventory", kind: "storage" },
+      { label: "Consolidated", kind: "storage" },
+      { label: "Partly moved out", kind: "storage" },
+      { label: "Phased out", kind: "storage" },
+    ],
+  },
+];
+
 export const gallery = [
   {
     file: "01-aerial-cutaway-sw",
-    caption: "The full Option B layout, seen from the southwest",
+    caption: "The full proposed layout, seen from the southwest",
   },
   {
     file: "03-garage-field-hero",
@@ -434,42 +700,49 @@ export const caseStudies: {
   },
 ];
 
-/** Approximate floor area for FRC spaces, smallest first. */
-export const spaceBenchmarks = [
+/**
+ * Approximate floor area for FRC spaces, smallest first. `sqft` is a single
+ * figure or a [low, high] range.
+ */
+export const spaceBenchmarks: {
+  space: string;
+  sqft: number | [number, number];
+  basis: string;
+}[] = [
   {
-    space: "Typical classroom (reference)",
-    sqft: "≈ 900",
-    basis: "Rule of thumb",
+    space: "Typical classroom",
+    sqft: 900,
+    basis: "Rule of thumb, for reference",
   },
   {
     space: "Half field with margins",
-    sqft: "≈ 1,000–1,400",
+    sqft: [1000, 1400],
     basis: "About 27 × 27 ft of carpet plus margins",
   },
   {
     space: "Full field, carpet only",
-    sqft: "≈ 1,458",
+    sqft: 1458,
     basis: "27 × 54 ft; varies slightly by season",
   },
   {
     space: "Full field with driver stations and equipment",
-    sqft: "≈ 2,800",
+    sqft: 2800,
     basis: "About 40 × 70 ft, per Chief Delphi",
   },
   {
     space: "Working shop",
-    sqft: "≈ 3,000",
+    sqft: 3000,
     basis: "One team's planned shop, per Chief Delphi",
   },
-  { space: "180 S.P.A.M. facility", sqft: "6,500", basis: "Team website" },
+  { space: "180 S.P.A.M. facility", sqft: 6500, basis: "Team website" },
   {
     space: "1678 Citrus Circuits facility",
-    sqft: "7,800",
+    sqft: 7800,
     basis: "CA Dept. of Education",
   },
   {
     space: "Fremont Union HSD center (five schools)",
-    sqft: "14,500",
+    sqft: 14500,
     basis: "News coverage",
   },
 ];

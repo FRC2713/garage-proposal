@@ -9,11 +9,12 @@ Built from [`FRC2713/hawk-app-template`](https://github.com/FRC2713/hawk-app-tem
 ## Edit the content
 
 - Shared data: `src/data/proposal.ts` holds the section list, stats, spaces, safety items, phases, gallery captions, and requests.
-- One page per section in `src/pages/`: `index` (overview), `summary`, `analysis`, `plan`, `model`, `gallery`, `request`.
+- One page per section in `src/pages/`: `index` (overview), `summary`, `analysis`, `gallery`, `research`, `plan`, `request`. Reading order comes from `sections`.
 - Header, section nav, and footer: `src/layouts/AppLayout.astro`. Page banners and previous/next links: `src/components/`.
 - Renderings: `public/images/`. They come from the SketchUp model `frc2713_shop.skp`, Option B.
-- 3D model page: `src/components/islands/GarageViewer.tsx` (React Three Fiber). Camera presets are written in SketchUp feet at the top of that file.
+- 3D model (on the gallery page, behind the "View in 3D" switch; `/model/` redirects there): `src/components/islands/GarageViewer.tsx` (React Three Fiber). Camera presets are written in SketchUp feet at the top of that file.
 - Visual rules: `docs/BRANDING.md`.
+- Side-by-side plan (`src/components/LayoutPlan.astro`): `public/images/plan-existing.png` is a crop of the May 2019 MHS second-floor plan PDF, and `plan-proposed.jpg` is a labels-off, top-down parallel view of Option B exported from SketchUp. Room marker positions live in `planRooms` in `src/data/proposal.ts`; re-place them if either image is re-cropped.
 
 ## Update the 3D model
 

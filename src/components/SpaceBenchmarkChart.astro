@@ -1,0 +1,79 @@
+---
+import { labArea, roundArea, spaceBenchmarks } from "../data/proposal";
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+const lab = roundArea(labArea);
+
+// The proposed lab, slotted in by size among the published benchmarks.
+const rows = [
+  ...spaceBenchmarks.map((b) => ({ ...b, ours: false })),
+  {
+    space: "Proposed Melrose lab",
+    sqft: lab,
+    basis: "Garage, cage, Room 6, and Room 3, from our 3D model",
+    ours: true,
+  },
+].sort((a, b) => {
+  const hi = (v: number | [number, number]) => (Array.isArray(v) ? v[1] : v);
+  return hi(a.sqft) - hi(b.sqft);
+});
+const max = Math.max(
+  ...rows.map((r) => (Array.isArray(r.sqft) ? r.sqft[1] : r.sqft)),
+);
+const pct = (v: number) => `${(v / max) * 100}%`;
+---
+
+<div class="overflow-hidden rounded-xl ring-1 ring-foreground/10">
+  <table class="w-full text-left text-sm">
+    <caption class="sr-only">
+      Approximate floor area of FRC practice and shop spaces, in square feet
+    </caption>
+    <thead class="bg-muted text-foreground">
+      <tr>
+        <th scope="col" class="px-4 py-3 font-semibold">Space</th>
+        <th scope="col" class="w-1/2 px-4 py-3 font-semibold">Sq ft</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y bg-card">
+      {
+        rows.map((r) => {
+          const [lo, hi] = Array.isArray(r.sqft) ? r.sqft : [r.sqft, r.sqft];
+          return (
+            <tr class:list={[r.ours && "bg-accent/60"]}>
+              <th scope="row" class="px-4 py-2.5 align-top font-normal">
+                <span class:list={["font-medium", r.ours && "text-primary"]}>
+                  {r.space}
+                </span>
+                <span class="block text-xs text-muted-foreground">
+                  {r.basis}
+                </span>
+              </th>
+              <td class="px-4 py-2.5 align-middle">
+                <div class="flex items-center gap-2">
+                  <div class="relative h-2.5 flex-1">
+                    <div
+                      class:list={[
+                        "absolute inset-y-0 left-0 rounded-r",
+                        r.ours ? "bg-primary" : "bg-foreground/35",
+                      ]}
+                      style={`width: ${pct(lo)}`}
+                    />
+                    {hi > lo && (
+                      <div
+                        class="absolute inset-y-0 rounded-r bg-foreground/15"
+                        style={`left: ${pct(lo)}; width: calc(${pct(hi - lo)})`}
+                      />
+                    )}
+                  </div>
+                  <span class="w-24 shrink-0 text-right text-xs tabular-nums sm:text-sm">
+                    {hi > lo ? `${fmt(lo)}–${fmt(hi)}` : `≈ ${fmt(lo)}`}
+                  </span>
+                </div>
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>

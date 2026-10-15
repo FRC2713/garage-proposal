@@ -1,0 +1,100 @@
+---
+import { phaseSchedule, phases } from "../data/proposal";
+
+const style = {
+  open: "bg-primary text-primary-foreground",
+  prep: "bg-muted text-foreground",
+  storage:
+    "border border-dashed border-muted-foreground/50 text-muted-foreground",
+};
+const legend = [
+  { kind: "open" as const, label: "Opens for students" },
+  { kind: "prep" as const, label: "Preparation" },
+  { kind: "storage" as const, label: "District storage" },
+];
+
+// After a space opens, later phases show it as in use.
+const rows = phaseSchedule.map((r) => {
+  const opened = r.steps.findIndex((s) => s?.kind === "open");
+  return {
+    ...r,
+    cells: r.steps.map((s, i) => ({
+      step: s,
+      inUse: !s && opened >= 0 && i > opened,
+    })),
+  };
+});
+---
+
+<figure class="rounded-xl bg-card p-5 ring-1 ring-foreground/10">
+  <figcaption class="text-sm font-semibold">When each space opens</figcaption>
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[40rem] table-fixed text-left text-xs">
+      <thead>
+        <tr class="text-muted-foreground">
+          <th scope="col" class="w-32 pb-2 font-medium">
+            <span class="sr-only">Space</span>
+          </th>
+          {
+            phases.map((p) => (
+              <th scope="col" class="px-1 pb-2 font-medium">
+                <span class="font-semibold text-foreground">Phase {p.n}</span>
+                <span class="block font-normal">{p.timing}</span>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((r) => (
+            <tr>
+              <th scope="row" class="py-1 pr-2 text-sm font-medium">
+                {r.space}
+              </th>
+              {r.cells.map((c) => (
+                <td class="px-1 py-1">
+                  {c.step ? (
+                    <span
+                      class:list={[
+                        "block rounded-md px-2 py-1.5 leading-tight",
+                        style[c.step.kind],
+                      ]}
+                    >
+                      {c.step.label}
+                    </span>
+                  ) : c.inUse ? (
+                    <span class="flex h-full items-center">
+                      <span class="h-1 w-full rounded-full bg-primary/30" />
+                      <span class="sr-only">In use</span>
+                    </span>
+                  ) : (
+                    <span class="sr-only">No change</span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+    {
+      legend.map((l) => (
+        <li class="flex items-center gap-2">
+          <span class:list={["size-3 rounded-sm", style[l.kind]]} />
+          {l.label}
+        </li>
+      ))
+    }
+    <li class="flex items-center gap-2">
+      <span class="h-1 w-4 rounded-full bg-primary/30"></span>
+      In use
+    </li>
+  </ul>
+  <p class="mt-3 text-xs text-muted-foreground">
+    The team already uses Rooms 3 and 6 today and keeps working there
+    throughout.
+  </p>
+</figure>

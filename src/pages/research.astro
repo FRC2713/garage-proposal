@@ -3,13 +3,28 @@ import { ExternalLink, Info, Ruler, Trophy, Wallet } from "lucide-react";
 import AppLayout from "../layouts/AppLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import PageNav from "../components/PageNav.astro";
+import SpaceBenchmarkChart from "../components/SpaceBenchmarkChart.astro";
 import {
   budgetPoints,
   budgetTiers,
   caseStudies,
+  garageArea,
+  labArea,
+  roundArea,
+  size,
+  spaces,
   spaceBenchmarks,
   spaceSources,
 } from "../data/proposal";
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+const sqftOf = (space: string) => {
+  const v = spaceBenchmarks.find((b) => b.space.startsWith(space))!.sqft;
+  return Array.isArray(v) ? v[1] : v;
+};
+const fullField = sqftOf("Full field with");
+const shop = sqftOf("Working shop");
+const facilities = [sqftOf("180"), sqftOf("1678")];
 
 const findings = [
   {
@@ -20,7 +35,7 @@ const findings = [
   {
     icon: Ruler,
     title: "Floor space",
-    body: "A full field with room around it needs about 2,800 sq ft, and a working shop about 3,000 sq ft. Single-school facilities at top programs run 6,500–7,800 sq ft. The field sets the size, whatever the enrollment.",
+    body: `A full field with room around it needs about ${fmt(fullField)} sq ft, and a working shop about ${fmt(shop)} sq ft. Single-team facilities at top programs run ${fmt(facilities[0]!)}–${fmt(facilities[1]!)} sq ft. The field sets the size, whatever the enrollment.`,
   },
   {
     icon: Wallet,
@@ -116,36 +131,13 @@ const link =
     </div>
   </section>
 
-  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-2">
+  <section
+    class="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-[1.4fr_1fr]"
+  >
     <div>
       <h2 class="text-xl font-semibold">How much space a field needs</h2>
-      <div class="mt-6 overflow-x-auto rounded-xl ring-1 ring-foreground/10">
-        <table class="w-full min-w-[28rem] text-left text-sm">
-          <thead class="bg-muted text-foreground">
-            <tr>
-              <th scope="col" class="px-4 py-3 font-semibold">Space</th>
-              <th scope="col" class="px-4 py-3 text-right font-semibold"
-                >Sq ft</th
-              >
-              <th scope="col" class="px-4 py-3 font-semibold">Basis</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y bg-card">
-            {
-              spaceBenchmarks.map((r) => (
-                <tr>
-                  <th scope="row" class="px-4 py-3 font-medium">
-                    {r.space}
-                  </th>
-                  <td class="px-4 py-3 text-right whitespace-nowrap tabular-nums">
-                    {r.sqft}
-                  </td>
-                  <td class="px-4 py-3 text-muted-foreground">{r.basis}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+      <div class="mt-6">
+        <SpaceBenchmarkChart />
       </div>
       <p class="mt-3 text-xs text-muted-foreground">
         Chief Delphi threads:{" "}
@@ -165,18 +157,20 @@ const link =
       <h2 class="text-xl font-semibold">How our plan compares</h2>
       <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
         <li>
-          The garage bay is about 60 × 48 ft, roughly the 2,800 sq ft a full
-          field with driver stations needs.
+          The garage bay is about {size(spaces[0]!)}, or {fmt(garageArea)} sq ft,
+          roughly what a full field with driver stations needs. It also holds the
+          mezzanine, racking, and metal prep, so the layout uses a 3/4-scale field.
         </li>
         <li>
           Mentors generally treat a little over half a field as the practical
           minimum. A half field fails for games that score at opposite ends. The
-          3/4-scale field in Option B clears that bar.
+          3/4-scale field in our layout clears that bar.
         </li>
         <li>
-          Across the garage, cage, Room 6, and Room 3, the lab totals about
-          4,300 sq ft, below the 6,500–7,800 sq ft purpose-built facilities but
-          inside a building the district already owns.
+          Across the garage, cage, Room 6, and Room 3, the lab totals about {
+            fmt(roundArea(labArea))
+          } sq ft, below the {fmt(facilities[0]!)}–{fmt(facilities[1]!)} sq ft purpose-built
+          facilities but inside a building the district already owns.
         </li>
         <li>
           FRC carpet comes in 15 ft rolls, and the border needs extra width on
@@ -240,8 +234,9 @@ const link =
       <h2 class="text-xl font-semibold">What this means for Melrose</h2>
       <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
         <li>
-          Red Hawk Robotics already raises money at the level of a competitive
-          district team. Compared with peers, the gap is space, not funding.
+          Red Hawk Robotics' budget is in line with competitive district teams.
+          What sets the top programs apart is space, especially a practice
+          field.
         </li>
         <li>
           The closest models (Davis, Madera, and Martin County) each got a field

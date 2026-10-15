@@ -2,7 +2,19 @@
 import AppLayout from "../layouts/AppLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import PageNav from "../components/PageNav.astro";
-import { benefits, img } from "../data/proposal";
+import ProgramScale from "../components/ProgramScale.astro";
+import {
+  benefits,
+  currentRooms,
+  img,
+  labArea,
+  program,
+  roundArea,
+  spaceStandards,
+} from "../data/proposal";
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+const perStandard = spaceStandards.map((s) => s.perPerson);
 ---
 
 <AppLayout title="Executive summary | Garage robotics lab proposal">
@@ -11,8 +23,8 @@ import { benefits, img } from "../data/proposal";
     title="One space where students learn to engineer"
     image="03-garage-field-hero"
   >
-    A robotics lab in the garage, built in phases, with district storage kept in
-    place.
+    A robotics lab in the garage, built in phases, reusing the existing
+    mezzanine and racking.
   </PageHeader>
 
   <section
@@ -20,20 +32,29 @@ import { benefits, img } from "../data/proposal";
   >
     <div class="space-y-4 text-base leading-relaxed text-muted-foreground">
       <p>
-        The garage is used today for storage. We propose converting it, together
-        with the adjoining cage, Room 6, and Room 3, into a robotics lab for Red
-        Hawk Robotics and other Melrose students.
+        Red Hawk Robotics serves {program[0]!.value} Melrose students, {
+          program[1]!.value
+        } of them on the FRC team. The team works in Rooms 3 and 6, where we regularly
+        fit more than {currentRooms.people} people into about {
+          fmt(roundArea(currentRooms.sqft))
+        } sq ft. Shop and lab standards call for at least {
+          Math.min(...perStandard)
+        } to {Math.max(...perStandard)} sq ft per student, so those rooms are past
+        capacity and leave no room to grow. Next door, the garage is used for storage.
+        We propose converting the garage and the adjoining cage, together with Rooms
+        3 and 6, into one robotics lab of about {fmt(roundArea(labArea))} sq ft.
       </p>
       <p>
-        The design, which we call Option B, puts a 3/4-scale practice field in
-        the garage bay, separates fabrication into a fenced cage, uses Room 6
-        for assembly, and turns Room 3 into a classroom. The district's existing
-        mezzanine and pallet racking stay where they are, so storage that must
-        remain can be consolidated onto them.
+        The design puts a 3/4-scale practice field in the garage bay, separates
+        fabrication into a fenced cage, uses Room 6 for assembly, and turns Room
+        3 into a classroom. The existing mezzanine and pallet racking stay and
+        become lab storage. District items still in the garage are consolidated
+        first, then phased out on a schedule agreed with the district.
       </p>
       <p>
-        We will do the work in four phases. Each phase is useful on its own, and
-        the first two need no new utilities.
+        The work is staged in four phases, each ending with a district check-in.
+        The first two need no new utilities, and only the last, the fabrication
+        cage, waits on permits and contractor work.
       </p>
       <figure class="mt-8 overflow-hidden rounded-xl ring-1 ring-foreground/10">
         <img
@@ -53,6 +74,18 @@ import { benefits, img } from "../data/proposal";
           </div>
         ))
       }
+    </div>
+  </section>
+
+  <section class="border-t bg-card/50">
+    <div class="mx-auto max-w-6xl px-5 py-16">
+      <h2 class="text-xl font-semibold">Our program today</h2>
+      <p class="mt-2 max-w-3xl text-muted-foreground">
+        The lab would serve a program that is already large and growing fast.
+      </p>
+      <div class="mt-6">
+        <ProgramScale />
+      </div>
     </div>
   </section>
 

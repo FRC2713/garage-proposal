@@ -9,6 +9,8 @@ export default defineConfig({
   site: "https://frc2713.github.io",
   base: "/garage-proposal",
   integrations: [react()],
+  // The 3D model page now lives on the gallery page.
+  redirects: { "/model": "/garage-proposal/gallery/#3d" },
   vite: {
     plugins: [tailwindcss()],
   },
