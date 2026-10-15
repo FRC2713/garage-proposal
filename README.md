@@ -18,10 +18,11 @@ Built from [`FRC2713/hawk-app-template`](https://github.com/FRC2713/hawk-app-tem
 
 ## Update the 3D model
 
-The viewer loads `public/models/garage-option-b.glb`, built from the SketchUp model in two steps:
+The viewer loads `public/models/garage-option-b.glb`, built from the SketchUp model:
 
-1. In SketchUp with `frc2713_shop.skp` open, run `scripts/export-option-b.rb` in the Ruby console. It writes `~/Desktop/option-b-mesh.json` with the visible Option B geometry (roof, ceilings, and floating labels left out).
-2. Run `node scripts/build-model.mjs ~/Desktop/option-b-mesh.json` to write the `.glb`.
+1. To repaint the team logos on the lab walls, run `node scripts/logo-outlines.mjs` (it flattens the SVGs in `docs/logos/` into `scripts/logo-outlines.json`), then load `scripts/add-branding.rb` in SketchUp's Ruby console. Logo sizes and walls are listed at the top of that script.
+2. In SketchUp with `frc2713_shop.skp` open, run `scripts/export-option-b.rb` in the Ruby console. It writes `~/Desktop/option-b-mesh.json` with the visible Option B geometry (roof, ceilings, and floating labels left out).
+3. Run `node scripts/build-model.mjs ~/Desktop/option-b-mesh.json` to write the `.glb`.
 
 ## Run locally
 
