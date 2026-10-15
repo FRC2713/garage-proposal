@@ -21,7 +21,7 @@ const views = [
     id: "field",
     label: "Practice field",
     eye: ft(489, 406, 13),
-    target: ft(460, 438, 1),
+    target: ft(462, 440, 6),
   },
   {
     id: "mezzanine",
@@ -32,20 +32,20 @@ const views = [
   {
     id: "cage",
     label: "Fabrication cage",
-    eye: ft(449, 411, 40),
-    target: ft(446, 395, 0),
+    eye: ft(447, 415, 28),
+    target: ft(446, 390, 3),
   },
   {
     id: "room6",
     label: "Room 6",
-    eye: ft(429, 417, 40),
-    target: ft(425, 400, 0),
+    eye: ft(426, 420, 28),
+    target: ft(425, 391, 3),
   },
   {
     id: "classroom",
     label: "Classroom",
-    eye: ft(489, 406, 38),
-    target: ft(488, 395, 0),
+    eye: ft(474, 395, 26),
+    target: ft(495, 395, 4),
   },
 ] as const;
 
