@@ -1,93 +1,370 @@
 ---
+import { ArrowRight, Printer } from "lucide-react";
 import AppLayout from "../layouts/AppLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import PageNav from "../components/PageNav.astro";
 import ProgramScale from "../components/ProgramScale.astro";
 import {
-  benefits,
   currentRooms,
+  href,
   img,
   labArea,
+  phases,
+  planRooms,
   program,
+  requests,
   roundArea,
+  size,
   spaceStandards,
+  spaces,
+  strategicPlan,
 } from "../data/proposal";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 const perStandard = spaceStandards.map((s) => s.perPerson);
+const siteUrl = new URL(href(""), Astro.site).toString();
+const labRooms = spaces.map((s) => ({
+  ...s,
+  short: planRooms.find((r) => r.key === s.key)?.use ?? s.use,
+}));
+
+const sectionsOnPage = [
+  { id: "request", title: "What we are asking for" },
+  { id: "why", title: "Why now" },
+  { id: "proposal", title: "The proposed lab" },
+  { id: "strategic-plan", title: "How the lab serves the Strategic Plan" },
+  { id: "phases", title: "A phased plan" },
+  { id: "safety", title: "Safety and supervision" },
+  { id: "roles", title: "What the district and the team each provide" },
+  { id: "next", title: "Next steps" },
+];
+const n = (id: string) => sectionsOnPage.findIndex((s) => s.id === id) + 1;
+const h2 = "flex items-baseline gap-3 text-xl font-semibold";
+const num = "text-sm font-semibold text-primary tabular-nums";
+const more =
+  "mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline print:hidden";
 ---
 
-<AppLayout title="Executive summary | Garage robotics lab proposal">
+<AppLayout
+  title="Written proposal | Garage robotics lab proposal"
+  description="A written proposal from Red Hawk Robotics, FRC Team 2713, to convert the garage into a robotics lab for Melrose students."
+>
   <PageHeader
     slug="summary"
-    title="One space where students learn to engineer"
+    title="Transform the garage into a real-world learning lab for robotics and STEM"
     image="03-garage-field-hero"
   >
-    A robotics lab in the garage, built in phases, reusing the existing
-    mezzanine and racking.
+    Hands-on engineering, manufacturing, and programming for {program[0]!.value}
+    Melrose students. A written proposal to Superintendent Berman from Red Hawk Robotics,
+    FRC Team 2713.
   </PageHeader>
 
-  <section
-    class="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-[1fr_1.1fr]"
-  >
-    <div class="space-y-4 text-base leading-relaxed text-muted-foreground">
-      <p>
-        Red Hawk Robotics serves {program[0]!.value} Melrose students, {
-          program[1]!.value
-        } of them on the FRC team. The team works in Rooms 3 and 6, where we regularly
-        fit more than {currentRooms.people} people into about {
-          fmt(roundArea(currentRooms.sqft))
-        } sq ft. Shop and lab standards call for at least {
-          Math.min(...perStandard)
-        } to {Math.max(...perStandard)} sq ft per student, so those rooms are past
-        capacity and leave no room to grow. Next door, the garage is used for storage.
-        We propose converting the garage and the adjoining cage, together with Rooms
-        3 and 6, into one robotics lab of about {fmt(roundArea(labArea))} sq ft.
+  <article class="mx-auto max-w-3xl px-5 py-12 print:max-w-none print:py-0">
+    <div
+      class="flex flex-wrap items-center justify-between gap-3 border-b pb-6 print:hidden"
+    >
+      <p class="text-sm text-muted-foreground">
+        About a five-minute read. Each section links to more detail.
       </p>
-      <p>
-        The design puts a 3/4-scale practice field in the garage bay, separates
-        fabrication into a fenced cage, uses Room 6 for assembly, and turns Room
-        3 into a classroom. The existing mezzanine and pallet racking stay and
-        become lab storage. District items still in the garage are consolidated
-        first, then phased out on a schedule agreed with the district.
-      </p>
-      <p>
-        The work is staged in four phases, each ending with a district check-in.
-        The first two need no new utilities, and only the last, the fabrication
-        cage, waits on permits and contractor work.
-      </p>
-      <figure class="mt-8 overflow-hidden rounded-xl ring-1 ring-foreground/10">
-        <img
-          src={img("10-aerial-cutaway-ne")}
-          alt="Cutaway view of the garage with the practice field, mezzanine, and fabrication cage"
-          class="aspect-video w-full object-cover"
-        />
-      </figure>
+      <button
+        type="button"
+        data-print
+        class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium ring-1 ring-foreground/15 hover:bg-muted"
+      >
+        <Printer className="size-4" aria-hidden="true" /> Print or save as PDF
+      </button>
     </div>
-    <div class="grid content-start gap-4 sm:grid-cols-2">
-      {
-        benefits.map((c) => (
-          <div class="rounded-xl bg-card p-5 shadow-xs ring-1 ring-foreground/10">
-            <c.icon className="size-5 text-primary" aria-hidden="true" />
-            <h2 class="mt-3 font-semibold">{c.title}</h2>
-            <p class="mt-1 text-sm text-muted-foreground">{c.body}</p>
-          </div>
-        ))
+    <p class="hidden text-sm text-muted-foreground print:block">
+      Renderings, a 3D model, research, and the full plan are online at {
+        siteUrl
       }
-    </div>
-  </section>
+    </p>
 
-  <section class="border-t bg-card/50">
-    <div class="mx-auto max-w-6xl px-5 py-16">
-      <h2 class="text-xl font-semibold">Our program today</h2>
-      <p class="mt-2 max-w-3xl text-muted-foreground">
-        The lab would serve a program that is already large and growing fast.
-      </p>
-      <div class="mt-6">
-        <ProgramScale />
-      </div>
-    </div>
-  </section>
+    <nav aria-label="On this page" class="mt-6 print:hidden">
+      <ol class="grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+        {
+          sectionsOnPage.map((s, i) => (
+            <li>
+              <a
+                href={`#${s.id}`}
+                class="text-muted-foreground hover:text-primary"
+              >
+                <span class="tabular-nums">{i + 1}.</span> {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
 
-  <PageNav slug="summary" />
+    <div class="mt-10 space-y-12 leading-relaxed print:mt-6 print:space-y-8">
+      <section id="request" class="scroll-mt-28 break-inside-avoid">
+        <h2 class={h2}>
+          <span class={num}>{n("request")}</span>What we are asking for
+        </h2>
+        <p class="mt-3 text-muted-foreground">
+          We are not asking to start construction. We are asking for three
+          decisions that let the district and the team begin the low-risk first
+          steps together:
+        </p>
+        <ol class="mt-4 space-y-3">
+          {
+            requests.map((t, i) => (
+              <li class="flex gap-4 rounded-xl bg-card p-4 ring-1 ring-foreground/10">
+                <span class="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                  {i + 1}
+                </span>
+                <span>{t}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section id="why" class="scroll-mt-28">
+        <h2 class={h2}><span class={num}>{n("why")}</span>Why now</h2>
+        <div class="mt-3 space-y-3 text-muted-foreground">
+          <p>
+            Red Hawk Robotics serves {program[0]!.value} Melrose students, {
+              program[1]!.value
+            } of them on the FRC team. The team works in Rooms 3 and 6, where we regularly
+            fit more than {currentRooms.people} people into about {
+              fmt(roundArea(currentRooms.sqft))
+            } sq ft. Shop and lab standards call for at least {
+              Math.min(...perStandard)
+            } to {Math.max(...perStandard)} sq ft per student, so those rooms are
+            past capacity and leave no room to grow.
+          </p>
+          <p>
+            Next door, the garage is used for storage. With it, the program
+            would have room for everyone it serves today, and a practice field
+            on site.
+          </p>
+        </div>
+        <div class="mt-6 break-inside-avoid">
+          <ProgramScale />
+        </div>
+        <a href={href("analysis")} class={more}>
+          Space analysis and standards <ArrowRight
+            className="size-4"
+            aria-hidden="true"
+          />
+        </a>
+      </section>
+
+      <section id="proposal" class="scroll-mt-28">
+        <h2 class={h2}>
+          <span class={num}>{n("proposal")}</span>The proposed lab
+        </h2>
+        <p class="mt-3 text-muted-foreground">
+          We propose converting the garage and the adjoining cage, together with
+          Rooms 3 and 6, into one robotics lab of about {
+            fmt(roundArea(labArea))
+          } sq ft. The existing mezzanine and pallet racking stay and become lab storage.
+          District items still in the garage are consolidated first, then phased out
+          on a schedule agreed with the district.
+        </p>
+        <div
+          class="mt-6 overflow-x-auto rounded-xl ring-1 ring-foreground/10 break-inside-avoid"
+        >
+          <table class="w-full min-w-[32rem] text-left text-sm">
+            <thead class="bg-muted text-foreground">
+              <tr>
+                <th scope="col" class="px-4 py-2 font-semibold">Space</th>
+                <th scope="col" class="px-4 py-2 font-semibold">Size</th>
+                <th scope="col" class="px-4 py-2 font-semibold">Use</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y bg-card">
+              {
+                labRooms.map((r) => (
+                  <tr>
+                    <th scope="row" class="px-4 py-2 font-medium">
+                      {r.name}
+                    </th>
+                    <td class="px-4 py-2 whitespace-nowrap text-muted-foreground tabular-nums">
+                      {size(r)}
+                    </td>
+                    <td class="px-4 py-2 text-muted-foreground">{r.short}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <figure
+          class="mt-6 overflow-hidden rounded-xl ring-1 ring-foreground/10 break-inside-avoid"
+        >
+          <img
+            src={img("10-aerial-cutaway-ne")}
+            alt="Cutaway view of the garage with the practice field, mezzanine, and fabrication cage"
+            class="aspect-video w-full object-cover"
+          />
+          <figcaption class="bg-card px-4 py-2 text-xs text-muted-foreground">
+            Concept rendering. Sizes come from our 3D model and are to be
+            confirmed on site.
+          </figcaption>
+        </figure>
+        <a href={href("gallery")} class={more}>
+          Renderings and 3D model <ArrowRight
+            className="size-4"
+            aria-hidden="true"
+          />
+        </a>
+      </section>
+
+      <section id="strategic-plan" class="scroll-mt-28">
+        <h2 class={h2}>
+          <span class={num}>{n("strategic-plan")}</span>How the lab serves the
+          Strategic Plan
+        </h2>
+        <p class="mt-3 text-muted-foreground">
+          The district's Strategic Plan holds that “{
+            strategicPlan.theoryOfAction
+          }.” A robotics lab is that kind of environment: students take on real
+          roles on a team and own the result. Every student can be an engaged,
+          challenged, enriched, and self-directed learner, supported by an
+          engaged community of mentors and families.
+        </p>
+        <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+          {
+            strategicPlan.objectives.map((o) => (
+              <div class="rounded-xl bg-card p-5 ring-1 ring-foreground/10 break-inside-avoid">
+                <dt>
+                  <span class="block font-semibold">{o.name}</span>
+                  <span class="mt-1 block text-sm text-muted-foreground italic">
+                    “…{o.quote}”
+                  </span>
+                </dt>
+                <dd class="mt-3 text-sm">{o.lab}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section id="phases" class="scroll-mt-28">
+        <h2 class={h2}>
+          <span class={num}>{n("phases")}</span>A phased plan
+        </h2>
+        <p class="mt-3 text-muted-foreground">
+          The work is staged in four phases, each ending with a district
+          check-in before the next one starts. The first two need no new
+          utilities, and only the last, the fabrication cage, waits on permits
+          and contractor work. Costs, funding, and dates for each phase will be
+          confirmed with the district during Phase 1.
+        </p>
+        <ol class="mt-6 divide-y rounded-xl bg-card ring-1 ring-foreground/10">
+          {
+            phases.map((p) => (
+              <li class="flex gap-4 p-4 break-inside-avoid">
+                <span class="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                  {p.n}
+                </span>
+                <div>
+                  <p class="font-semibold">
+                    {p.title}{" "}
+                    <span class="ml-1 text-xs font-normal text-muted-foreground">
+                      {p.timing}
+                    </span>
+                  </p>
+                  <p class="mt-1 text-sm text-muted-foreground">{p.outcome}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <a href={href("plan")} class={more}>
+          Full phased plan and schedule <ArrowRight
+            className="size-4"
+            aria-hidden="true"
+          />
+        </a>
+      </section>
+
+      <section id="safety" class="scroll-mt-28">
+        <h2 class={h2}>
+          <span class={num}>{n("safety")}</span>Safety and supervision
+        </h2>
+        <div class="mt-3 space-y-3 text-muted-foreground">
+          <p>
+            The layout separates hazards by zone. Laser and metal fabrication
+            sit in a fenced cage with its own exhaust, metal prep is screened
+            under the mezzanine, and battery charging stays in Room 6, away from
+            fabrication. Each safety control arrives with the phase that opens
+            the space it protects, so nothing opens without its controls in
+            place.
+          </p>
+          <p>
+            Before any work begins, Phase 1 reviews fire, building, and
+            insurance requirements, and sets access hours, adult supervision,
+            and a written safety plan with the district.
+          </p>
+        </div>
+        <a href={href("analysis")} class={more}>
+          How safety is designed in <ArrowRight
+            className="size-4"
+            aria-hidden="true"
+          />
+        </a>
+      </section>
+
+      <section id="roles" class="scroll-mt-28">
+        <h2 class={h2}>
+          <span class={num}>{n("roles")}</span>What the district and the team
+          each provide
+        </h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <div
+            class="rounded-xl bg-card p-5 ring-1 ring-foreground/10 break-inside-avoid"
+          >
+            <h3 class="font-semibold">From the district</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm">
+              <li>
+                Approval to use the garage, cage, and Rooms 3 and 6 as one lab,
+                under a use agreement
+              </li>
+              <li>
+                A walkthrough with facilities, and a schedule for moving
+                district storage out
+              </li>
+              <li>A review of fire, building, and insurance requirements</li>
+            </ul>
+          </div>
+          <div
+            class="rounded-xl bg-card p-5 ring-1 ring-foreground/10 break-inside-avoid"
+          >
+            <h3 class="font-semibold">From Red Hawk Robotics</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm">
+              <li>{program[2]!.value} mentors working with the FRC team</li>
+              <li>A written safety plan, drafted with the district</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="next" class="scroll-mt-28 break-inside-avoid">
+        <h2 class={h2}><span class={num}>{n("next")}</span>Next steps</h2>
+        <p class="mt-3 text-muted-foreground">
+          With your approval, we would start Phase 1: a walkthrough with your
+          office and facilities, an inventory of district storage, and a draft
+          use agreement and safety plan. No physical work starts until Phase 1
+          produces {
+            phases[0]!.outcome.charAt(0).toLowerCase() +
+              phases[0]!.outcome.slice(1)
+          } We would welcome the chance to walk the space with you.
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <div class="print:hidden">
+    <PageNav slug="summary" />
+  </div>
 </AppLayout>
+
+<script>
+  document
+    .querySelectorAll("[data-print]")
+    .forEach((b) => b.addEventListener("click", () => window.print()));
+</script>

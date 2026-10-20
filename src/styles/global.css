@@ -108,3 +108,47 @@
     cursor: pointer;
   }
 }
+
+/* Print the written proposal as a plain document. */
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  html {
+    font-size: 11pt;
+  }
+
+  [data-site-header] {
+    display: none;
+  }
+
+  [data-page-header] {
+    background: none;
+    color: var(--foreground);
+    border-bottom: 2px solid var(--primary);
+  }
+
+  [data-page-header] img,
+  [data-page-header] > div[class*="gradient"] {
+    display: none;
+  }
+
+  [data-page-header] * {
+    color: var(--foreground) !important;
+  }
+
+  [data-page-header] > div {
+    padding-inline: 0;
+  }
+
+  * {
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h2 {
+    break-after: avoid;
+  }
+}

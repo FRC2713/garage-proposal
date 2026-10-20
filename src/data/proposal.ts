@@ -25,9 +25,10 @@ export const sections = [
   { slug: "", label: "Overview", eyebrow: "Overview", blurb: "" },
   {
     slug: "summary",
-    label: "Summary",
-    eyebrow: "Executive summary",
-    blurb: "What we propose, who benefits, and why it is a low-risk start.",
+    label: "Written proposal",
+    eyebrow: "Written proposal",
+    blurb:
+      "The full request on one page: what we ask, why, how it serves the Strategic Plan, and the phased plan.",
   },
   {
     slug: "analysis",
@@ -87,6 +88,37 @@ export const benefits = [
     body: "Phases 1 and 2 need only cleanup and setup. Larger work waits for permits and approval.",
   },
 ];
+
+/**
+ * How the lab serves the MPS Strategic Plan (2023–2026). Quotes are taken
+ * word for word from the plan's executive summary; keep them exact.
+ */
+export const strategicPlan = {
+  theoryOfAction:
+    "if educators design a safe, supportive, and responsive student-centered learning environment, then students will own their learning",
+  objectives: [
+    {
+      name: "Academic Knowledge and Skills",
+      quote: "apply their competencies in relevant, real-world contexts",
+      lab: "Students use math, physics, programming, and design to build a working robot to a fixed rulebook and deadline, then test it on a field.",
+    },
+    {
+      name: "Personalized and Equitable Opportunities",
+      quote: "know their own strengths, interests, and areas of growth",
+      lab: "CAD, machining, wiring, programming, driving, and outreach are all real jobs on the team, so each student can find where they are strongest and build connections with peers and adult mentors.",
+    },
+    {
+      name: "Global Engagement",
+      quote: "graduate ready to compete globally",
+      lab: "FIRST is an international program. Students compete and collaborate with teams from other schools and communities.",
+    },
+    {
+      name: "Finance and Operations",
+      quote: "sustainable growth in all areas of district planning",
+      lab: "The lab reuses an underused space and its existing mezzanine and racking. Work moves in phases, with a district check-in before each one.",
+    },
+  ],
+};
 
 export const requests = [
   "Approve Red Hawk Robotics' continued use of Rooms 3 and 6, and its use of the garage and cage, as one robotics lab, subject to a use agreement.",
