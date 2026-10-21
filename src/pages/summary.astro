@@ -9,7 +9,7 @@ import {
   href,
   img,
   labArea,
-  phases,
+  tracks,
   planRooms,
   program,
   requests,
@@ -33,7 +33,7 @@ const sectionsOnPage = [
   { id: "why", title: "Why now" },
   { id: "proposal", title: "The proposed lab" },
   { id: "strategic-plan", title: "How the lab serves the Strategic Plan" },
-  { id: "phases", title: "A phased plan" },
+  { id: "phases", title: "Two tracks, moving in parallel" },
   { id: "safety", title: "Safety and supervision" },
   { id: "roles", title: "What the district and the team each provide" },
   { id: "next", title: "Next steps" },
@@ -245,37 +245,45 @@ const more =
 
       <section id="phases" class="scroll-mt-28">
         <h2 class={h2}>
-          <span class={num}>{n("phases")}</span>A phased plan
+          <span class={num}>{n("phases")}</span>Two tracks, moving in parallel
         </h2>
         <p class="mt-3 text-muted-foreground">
-          The work is staged in four phases, each ending with a district
-          check-in before the next one starts. The first two need no new
-          utilities, and only the last, the fabrication cage, waits on permits
-          and contractor work. Costs, funding, and dates for each phase will be
-          confirmed with the district during Phase 1.
+          The fabrication cage does not wait on the garage. The cage and Rooms 3
+          and 6 can move now, and the garage follows on its own track as
+          district storage moves out. Each step ends with a district check-in
+          before the next one starts. Costs, funding, and dates will be
+          confirmed with the district in the first step of each track.
         </p>
-        <ol class="mt-6 divide-y rounded-xl bg-card ring-1 ring-foreground/10">
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
           {
-            phases.map((p) => (
-              <li class="flex gap-4 p-4 break-inside-avoid">
-                <span class="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                  {p.n}
-                </span>
-                <div>
-                  <p class="font-semibold">
-                    {p.title}{" "}
-                    <span class="ml-1 text-xs font-normal text-muted-foreground">
-                      {p.timing}
-                    </span>
-                  </p>
-                  <p class="mt-1 text-sm text-muted-foreground">{p.outcome}</p>
+            tracks.map((t) => (
+              <div class="rounded-xl bg-card ring-1 ring-foreground/10 break-inside-avoid">
+                <div class="border-b p-4">
+                  <h3 class="font-semibold">{t.name}</h3>
+                  <p class="text-sm text-muted-foreground">{t.spaces}</p>
                 </div>
-              </li>
+                <ol class="divide-y">
+                  {t.steps.map((p) => (
+                    <li class="flex gap-3 p-4">
+                      <span class="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                        {p.id}
+                      </span>
+                      <div>
+                        <p class="font-semibold">{p.title}</p>
+                        <p class="text-xs text-muted-foreground">{p.timing}</p>
+                        <p class="mt-1 text-sm text-muted-foreground">
+                          {p.outcome}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             ))
           }
-        </ol>
+        </div>
         <a href={href("plan")} class={more}>
-          Full phased plan and schedule <ArrowRight
+          Full plan and schedule <ArrowRight
             className="size-4"
             aria-hidden="true"
           />
@@ -291,14 +299,14 @@ const more =
             The layout separates hazards by zone. Laser and metal fabrication
             sit in a fenced cage with its own exhaust, metal prep is screened
             under the mezzanine, and battery charging stays in Room 6, away from
-            fabrication. Each safety control arrives with the phase that opens
+            fabrication. Each safety control arrives with the step that opens
             the space it protects, so nothing opens without its controls in
             place.
           </p>
           <p>
-            Before any work begins, Phase 1 reviews fire, building, and
-            insurance requirements, and sets access hours, adult supervision,
-            and a written safety plan with the district.
+            Before any work begins, the first step of each track reviews fire,
+            building, and insurance requirements, and sets access hours, adult
+            supervision, and a written safety plan with the district.
           </p>
         </div>
         <a href={href("analysis")} class={more}>
@@ -321,9 +329,10 @@ const more =
             <h3 class="font-semibold">From the district</h3>
             <ul class="mt-3 list-disc space-y-2 pl-5 text-sm">
               <li>
-                Approval to use the garage, cage, and Rooms 3 and 6 as one lab,
-                under a use agreement
+                Approval to use the cage and Rooms 3 and 6 now, under a use
+                agreement
               </li>
+              <li>Agreement in principle to add the garage to the lab</li>
               <li>
                 A walkthrough with facilities, and a schedule for moving
                 district storage out
@@ -346,13 +355,13 @@ const more =
       <section id="next" class="scroll-mt-28 break-inside-avoid">
         <h2 class={h2}><span class={num}>{n("next")}</span>Next steps</h2>
         <p class="mt-3 text-muted-foreground">
-          With your approval, we would start Phase 1: a walkthrough with your
-          office and facilities, an inventory of district storage, and a draft
-          use agreement and safety plan. No physical work starts until Phase 1
-          produces {
-            phases[0]!.outcome.charAt(0).toLowerCase() +
-              phases[0]!.outcome.slice(1)
-          } We would welcome the chance to walk the space with you.
+          With your approval, we would start both tracks at once. For the
+          fabrication track, we would walk the cage and Rooms 3 and 6 with your
+          office and facilities and draft a use agreement and safety plan. For
+          the garage track, we would inventory district storage and agree on a
+          schedule to move it out. No physical work starts until each first step
+          produces its agreement. We would welcome the chance to walk the space
+          with you.
         </p>
       </section>
     </div>

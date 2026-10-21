@@ -1,5 +1,13 @@
 ---
-import { phaseSchedule, phases } from "../data/proposal";
+import { tracks } from "../data/proposal";
+
+interface Props {
+  track: (typeof tracks)[number];
+  /** Show the color key under the chart. */
+  legend?: boolean;
+}
+
+const { track, legend: showLegend = true } = Astro.props;
 
 const style = {
   open: "bg-primary text-primary-foreground",
@@ -14,7 +22,7 @@ const legend = [
 ];
 
 // After a space opens, later phases show it as in use.
-const rows = phaseSchedule.map((r) => {
+const rows = track.schedule.map((r) => {
   const opened = r.steps.findIndex((s) => s?.kind === "open");
   return {
     ...r,
@@ -27,18 +35,20 @@ const rows = phaseSchedule.map((r) => {
 ---
 
 <figure class="rounded-xl bg-card p-5 ring-1 ring-foreground/10">
-  <figcaption class="text-sm font-semibold">When each space opens</figcaption>
+  <figcaption class="text-sm font-semibold">
+    {track.name}: when each space opens
+  </figcaption>
   <div class="mt-4 overflow-x-auto">
-    <table class="w-full min-w-[40rem] table-fixed text-left text-xs">
+    <table class="w-full min-w-[32rem] table-fixed text-left text-xs">
       <thead>
         <tr class="text-muted-foreground">
           <th scope="col" class="w-32 pb-2 font-medium">
             <span class="sr-only">Space</span>
           </th>
           {
-            phases.map((p) => (
+            track.steps.map((p) => (
               <th scope="col" class="px-1 pb-2 font-medium">
-                <span class="font-semibold text-foreground">Phase {p.n}</span>
+                <span class="font-semibold text-foreground">{p.id}</span>
                 <span class="block font-normal">{p.timing}</span>
               </th>
             ))
@@ -79,22 +89,20 @@ const rows = phaseSchedule.map((r) => {
       </tbody>
     </table>
   </div>
-  <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-    {
-      legend.map((l) => (
+  {
+    showLegend && (
+      <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+        {legend.map((l) => (
+          <li class="flex items-center gap-2">
+            <span class:list={["size-3 rounded-sm", style[l.kind]]} />
+            {l.label}
+          </li>
+        ))}
         <li class="flex items-center gap-2">
-          <span class:list={["size-3 rounded-sm", style[l.kind]]} />
-          {l.label}
+          <span class="h-1 w-4 rounded-full bg-primary/30" />
+          In use
         </li>
-      ))
-    }
-    <li class="flex items-center gap-2">
-      <span class="h-1 w-4 rounded-full bg-primary/30"></span>
-      In use
-    </li>
-  </ul>
-  <p class="mt-3 text-xs text-muted-foreground">
-    The team already uses Rooms 3 and 6 today and keeps working there
-    throughout.
-  </p>
+      </ul>
+    )
+  }
 </figure>

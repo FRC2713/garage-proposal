@@ -4,74 +4,104 @@ import AppLayout from "../layouts/AppLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import PageNav from "../components/PageNav.astro";
 import PhaseSchedule from "../components/PhaseSchedule.astro";
-import { phases } from "../data/proposal";
+import { tracks } from "../data/proposal";
 ---
 
-<AppLayout title="Phased plan | Garage robotics lab proposal">
-  <PageHeader slug="plan" title="A phased plan" image="08-room6-build-assembly">
-    Each phase ends with a check-in with the district before the next one
-    starts. Costs, funding, and dates for each phase will be confirmed with the
-    district during Phase 1.
+<AppLayout title="Two-track plan | Garage robotics lab proposal">
+  <PageHeader
+    slug="plan"
+    title="Two tracks, moving in parallel"
+    image="08-room6-build-assembly"
+  >
+    The fabrication cage does not wait on the garage. Each step ends with a
+    check-in with the district before the next one starts. Costs, funding, and
+    dates will be confirmed with the district in the first step of each track.
   </PageHeader>
 
   <section class="mx-auto max-w-6xl px-5 pt-16">
-    <PhaseSchedule />
+    <div class="grid gap-4 lg:grid-cols-2">
+      {
+        tracks.map((t) => (
+          <div class="rounded-xl bg-muted p-5 text-sm">
+            <h2 class="font-semibold">{t.name}</h2>
+            <p class="text-muted-foreground">{t.spaces}</p>
+            <p class="mt-2">{t.why}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="mt-6 grid gap-4 xl:grid-cols-[3fr_4fr]">
+      {
+        tracks.map((t, i) => (
+          <PhaseSchedule track={t} legend={i === tracks.length - 1} />
+        ))
+      }
+    </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-5 py-16">
-    <ol class="relative space-y-6 border-l-2 border-border pl-8">
-      {
-        phases.map((p) => (
-          <li class="relative">
-            <span class="absolute top-5 -left-[2.65rem] grid size-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground ring-4 ring-background">
-              {p.n}
-            </span>
-            <article class="rounded-xl bg-card p-6 shadow-xs ring-1 ring-foreground/10">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="flex items-center gap-2 text-lg font-semibold">
-                  <p.icon className="size-5 text-primary" aria-hidden="true" />
-                  Phase {p.n}: {p.title}
-                </h2>
-                <span class="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-                  {p.timing}
+  <section class="mx-auto grid max-w-6xl gap-12 px-5 py-16 lg:grid-cols-2">
+    {
+      tracks.map((t) => (
+        <div>
+          <h2 class="text-xl font-semibold">{t.name}</h2>
+          <p class="mt-1 text-sm text-muted-foreground">{t.spaces}</p>
+          <ol class="relative mt-6 space-y-6 border-l-2 border-border pl-8">
+            {t.steps.map((p) => (
+              <li class="relative">
+                <span class="absolute top-5 -left-[2.65rem] grid size-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground ring-4 ring-background">
+                  {p.id}
                 </span>
-              </div>
-              <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
-                {p.goals.map((g) => (
-                  <li class="flex gap-2">
-                    <span
-                      aria-hidden="true"
-                      class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"
-                    />
-                    <span>{g}</span>
-                  </li>
-                ))}
-              </ul>
-              {p.safety.length > 0 && (
-                <div class="mt-4 border-t pt-4 text-sm">
-                  <strong>Safety in place:</strong>
-                  <ul class="mt-2 grid gap-2 text-muted-foreground sm:grid-cols-2">
-                    {p.safety.map((s) => (
+                <article class="rounded-xl bg-card p-6 shadow-xs ring-1 ring-foreground/10">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="flex items-center gap-2 text-lg font-semibold">
+                      <p.icon
+                        className="size-5 text-primary"
+                        aria-hidden="true"
+                      />
+                      {p.title}
+                    </h3>
+                    <span class="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                      {p.timing}
+                    </span>
+                  </div>
+                  <ul class="mt-4 grid gap-2 text-sm">
+                    {p.goals.map((g) => (
                       <li class="flex gap-2">
-                        <ShieldCheck
-                          className="mt-0.5 size-4 shrink-0 text-primary"
+                        <span
                           aria-hidden="true"
+                          class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"
                         />
-                        <span>{s}</span>
+                        <span>{g}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-              <p class="mt-4 border-t pt-4 text-sm">
-                <strong>Outcome:</strong>{" "}
-                <span class="text-muted-foreground">{p.outcome}</span>
-              </p>
-            </article>
-          </li>
-        ))
-      }
-    </ol>
+                  {p.safety.length > 0 && (
+                    <div class="mt-4 border-t pt-4 text-sm">
+                      <strong>Safety in place:</strong>
+                      <ul class="mt-2 grid gap-2 text-muted-foreground">
+                        {p.safety.map((s) => (
+                          <li class="flex gap-2">
+                            <ShieldCheck
+                              className="mt-0.5 size-4 shrink-0 text-primary"
+                              aria-hidden="true"
+                            />
+                            <span>{s}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <p class="mt-4 border-t pt-4 text-sm">
+                    <strong>Outcome:</strong>{" "}
+                    <span class="text-muted-foreground">{p.outcome}</span>
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
   </section>
 
   <PageNav slug="plan" />
