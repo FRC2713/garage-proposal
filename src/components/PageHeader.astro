@@ -11,7 +11,10 @@ const { slug, title, image } = Astro.props;
 const section = sections.find((s) => s.slug === slug);
 ---
 
-<section class="relative isolate overflow-hidden bg-foreground text-white">
+<section
+  data-page-header
+  class="relative isolate overflow-hidden bg-foreground text-white"
+>
   {
     image && (
       <>

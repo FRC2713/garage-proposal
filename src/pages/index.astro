@@ -5,7 +5,9 @@ import LayoutPlan from "../components/LayoutPlan.astro";
 import { href, img, sections, stats } from "../data/proposal";
 ---
 
-<AppLayout title="A robotics lab for Melrose students | Red Hawk Robotics">
+<AppLayout
+  title="A real-world learning lab for robotics and STEM | Red Hawk Robotics"
+>
   <section class="relative isolate overflow-hidden bg-foreground text-white">
     <img
       src={img("01-aerial-cutaway-sw")}
@@ -25,7 +27,8 @@ import { href, img, sections, stats } from "../data/proposal";
       <h1
         class="mt-3 max-w-3xl text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
       >
-        Turn the garage into a robotics lab for Melrose students
+        Transform the garage into a real-world learning lab for robotics and
+        STEM
       </h1>
       <p class="mt-4 max-w-2xl text-base text-white/85 sm:text-lg">
         Red Hawk Robotics, FRC Team 2713, asks for access to the garage so
@@ -38,7 +41,10 @@ import { href, img, sections, stats } from "../data/proposal";
           href={href("summary")}
           class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
-          Read the summary <ArrowRight className="size-4" aria-hidden="true" />
+          Read the written proposal <ArrowRight
+            className="size-4"
+            aria-hidden="true"
+          />
         </a>
         <a
           href={href("gallery")}
