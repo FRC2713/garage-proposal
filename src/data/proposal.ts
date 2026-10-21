@@ -28,7 +28,7 @@ export const sections = [
     label: "Written proposal",
     eyebrow: "Written proposal",
     blurb:
-      "The full request on one page: what we ask, why, how it serves the Strategic Plan, and the phased plan.",
+      "The full request on one page: what we ask, why, how it serves the Strategic Plan, and the two-track plan.",
   },
   {
     slug: "analysis",
@@ -53,10 +53,10 @@ export const sections = [
   },
   {
     slug: "plan",
-    label: "Phased plan",
-    eyebrow: "Proposal",
+    label: "Two-track plan",
+    eyebrow: "The plan",
     blurb:
-      "Four phases, each ending with a district check-in, with safety controls arriving as each space opens.",
+      "Two tracks in parallel: the fabrication cage starts now, and the garage follows at the district's pace.",
   },
   {
     slug: "request",
@@ -85,7 +85,7 @@ export const benefits = [
   {
     icon: CalendarRange,
     title: "Low-risk start",
-    body: "Phases 1 and 2 need only cleanup and setup. Larger work waits for permits and approval.",
+    body: "The cage and Rooms 3 and 6 move first. The garage follows on its own track, at the district's pace.",
   },
 ];
 
@@ -115,15 +115,15 @@ export const strategicPlan = {
     {
       name: "Finance and Operations",
       quote: "sustainable growth in all areas of district planning",
-      lab: "The lab reuses an underused space and its existing mezzanine and racking. Work moves in phases, with a district check-in before each one.",
+      lab: "The lab reuses an underused space and its existing mezzanine and racking. Work moves in steps, with a district check-in after each one.",
     },
   ],
 };
 
 export const requests = [
-  "Approve Red Hawk Robotics' continued use of Rooms 3 and 6, and its use of the garage and cage, as one robotics lab, subject to a use agreement.",
-  "Schedule a walkthrough with your office and facilities to plan how and when district storage moves out.",
-  "Authorize Phase 1, so the team and district can draft the safety plan and agreement together.",
+  "Approve Red Hawk Robotics' continued use of Rooms 3 and 6 and its use of the fabrication cage, subject to a use agreement, so the fabrication track can start now.",
+  "Agree in principle to adding the garage to the lab, and schedule a walkthrough with your office and facilities to plan how and when district storage moves out.",
+  "Authorize the first step of each track, so the team and district can draft the safety plan and agreement together.",
 ];
 
 /** The size of the program the lab would serve. */
@@ -154,7 +154,7 @@ export const programTeams = [
     note: "FIRST Robotics Competition",
   },
   { count: "3", name: "FTC teams", note: "FIRST Tech Challenge" },
-  { count: "6–7", name: "FLL teams", note: "FIRST LEGO League" },
+  { count: "11", name: "FLL teams", note: "FIRST LEGO League" },
 ];
 
 export const stats = [
@@ -167,10 +167,14 @@ export const stats = [
     label: "Lab floor area across the garage, cage, Room 6, and Room 3",
   },
   {
-    value: "3/4-scale",
-    label: "FRC practice field on site, with a polycarbonate perimeter",
+    value: "3/4-length",
+    label:
+      "FRC practice field on site: full width, three-quarters of full length",
   },
-  { value: "4 phases", label: "Each ends with a district check-in" },
+  {
+    value: "2 tracks",
+    label: "Fabrication starts now; the garage follows in parallel",
+  },
 ];
 
 /** Lab spaces. `ft` is width × depth from the SketchUp model, to confirm on site. */
@@ -185,7 +189,7 @@ export const spaces: {
     key: "garage",
     name: "Garage bay",
     ft: [60, 48],
-    use: "3/4-scale practice field, driver stations, metal prep under the existing mezzanine, sheet breakdown and cut stations.",
+    use: "Full-width, 3/4-length practice field, driver stations, metal prep under the existing mezzanine, sheet breakdown and cut stations.",
     icon: Trophy,
   },
   {
@@ -394,7 +398,7 @@ export const comparison = [
   {
     topic: "Practice field",
     storage: "Team practices off site or not at all",
-    lab: "3/4-scale field on site with clear egress lanes",
+    lab: "Full-width, 3/4-length field on site with clear egress lanes",
   },
   {
     topic: "Safety controls",
@@ -408,128 +412,197 @@ export const comparison = [
   },
 ];
 
-export const phases = [
+type Step = { label: string; kind: "prep" | "open" | "storage" } | null;
+
+/**
+ * The plan runs on two tracks in parallel. The fabrication track needs only
+ * the cage and the rooms the team already uses, so it does not wait on the
+ * garage, which depends on moving district storage out.
+ */
+export const tracks: {
+  key: string;
+  name: string;
+  spaces: string;
+  why: string;
+  steps: {
+    id: string;
+    title: string;
+    timing: string;
+    icon: typeof Trophy;
+    goals: string[];
+    safety: string[];
+    outcome: string;
+  }[];
+  /** What happens to each space at each step; null means no change. */
+  schedule: { space: string; steps: Step[] }[];
+}[] = [
   {
-    n: 1,
-    title: "Agreement and walkthrough",
-    timing: "Before any work begins",
-    icon: ClipboardCheck,
-    goals: [
-      "Walk the garage with the superintendent's office and facilities",
-      "Inventory district storage and agree on a schedule to move it out or surplus it",
-      "Review fire, building, and insurance requirements",
-      "Agree on access hours, adult supervision, and a written safety plan",
+    key: "fabrication",
+    name: "Fabrication track",
+    spaces: "Fabrication cage, Room 6, and Room 3",
+    why: "The cage is a small, self-contained space next to Room 6, and the team's new laser needs a safe, ventilated home soon. This track can start now.",
+    steps: [
+      {
+        id: "F1",
+        title: "Agreement and safety review",
+        timing: "Starts now",
+        icon: ClipboardCheck,
+        goals: [
+          "Walk the cage and Rooms 3 and 6 with the superintendent's office and facilities",
+          "Review fire, building, electrical, and insurance requirements for the laser and machines",
+          "Agree on access hours, adult supervision, and a written safety plan",
+        ],
+        safety: [],
+        outcome:
+          "A signed use agreement for the cage and Rooms 3 and 6, and a punch list everyone has seen.",
+      },
+      {
+        id: "F2",
+        title: "Set up Rooms 3 and 6",
+        timing: "No new utilities",
+        icon: Wrench,
+        goals: [
+          "Set up Room 3 as a classroom and design space",
+          "Fit out Room 6 with benches, an assembly table, and battery charging",
+        ],
+        safety: [
+          "PPE cabinet and safety stations at every entry",
+          "Self-contained eyewash stations, which need no plumbing, and first aid kits",
+          "ABC extinguishers throughout",
+          "Battery charging on a spill tray, away from fabrication",
+          "Portable fume extraction at the electronics bench, and chip screens at the deburr booth",
+        ],
+        outcome:
+          "Students design, build, and assemble robots in rooms set up for the work.",
+      },
+      {
+        id: "F3",
+        title: "Fabrication cage",
+        timing: "After permits and contractor work",
+        icon: Flame,
+        goals: [
+          "Licensed electrical work and the cage exhaust to the roof",
+          "Install the fence, laser curtain, and vision panel",
+          "Commission the laser, press brake, and CNC machines with written procedures",
+        ],
+        safety: [
+          "Laser and metal fabrication isolated in a fenced cage with a rolling slide gate, laser curtain, and laser-rated vision panel",
+          "Ducted exhaust from the cage to a roof fan, and fume extraction at the MetalFab",
+          "A Class D extinguisher beside the aluminum chip drum",
+        ],
+        outcome:
+          "Students learn modern manufacturing in a controlled, supervised zone, without waiting on the garage.",
+      },
     ],
-    safety: [],
-    outcome: "A signed use agreement and a punch list everyone has seen.",
+    schedule: [
+      {
+        space: "Room 3",
+        steps: [null, { label: "Set up as classroom", kind: "open" }, null],
+      },
+      {
+        space: "Room 6",
+        steps: [null, { label: "Benches and charging", kind: "open" }, null],
+      },
+      {
+        space: "Fabrication cage",
+        steps: [
+          { label: "Safety review", kind: "prep" },
+          { label: "Permits and contractor work", kind: "prep" },
+          { label: "Fabrication opens", kind: "open" },
+        ],
+      },
+    ],
   },
   {
-    n: 2,
-    title: "Consolidate storage and open the floor",
-    timing: "First phase of physical work",
-    icon: Warehouse,
-    goals: [
-      "Consolidate district storage into one area of the racks and mezzanine",
-      "Clean and mark the floor; post safety stations and egress routes",
-      "Set up Room 3 as a classroom and design space",
+    key: "garage",
+    name: "Garage track",
+    spaces: "Garage bay and district storage",
+    why: "The garage depends on moving district storage out, which will take longer. It moves at the district's pace, in parallel with the fabrication track.",
+    steps: [
+      {
+        id: "G1",
+        title: "Walkthrough and storage plan",
+        timing: "Starts alongside F1",
+        icon: ClipboardCheck,
+        goals: [
+          "Walk the garage with the superintendent's office and facilities",
+          "Inventory district storage and agree on a schedule to move it out or surplus it",
+          "Review fire and building requirements for the garage, and extend the safety plan to it",
+        ],
+        safety: [],
+        outcome: "An agreed storage schedule and a garage punch list.",
+      },
+      {
+        id: "G2",
+        title: "Consolidate storage and open the floor",
+        timing: "No new utilities",
+        icon: Warehouse,
+        goals: [
+          "Consolidate district storage into one area of the racks and mezzanine",
+          "Clean and mark the floor; post safety stations and egress routes",
+        ],
+        safety: [
+          "PPE and safety stations at the garage entries",
+          "Marked egress routes kept clear of storage",
+        ],
+        outcome: "Students can use the open floor, with no new utilities.",
+      },
+      {
+        id: "G3",
+        title: "Practice field and metal prep",
+        timing: "As storage moves out",
+        icon: Hammer,
+        goals: [
+          "Install field carpet, polycarbonate perimeter, and driver stations",
+          "Set up metal prep under the existing mezzanine",
+          "Move out the next share of district storage and use the freed racks for lab stock",
+        ],
+        safety: [
+          "Hinged gates on three sides of the field and a marked cross-field egress lane",
+          "Emergency stops and a shop disconnect at the garage",
+          "Chip and spark screens at metal prep, and dust collection with a cyclone for wood",
+        ],
+        outcome: "The team can build and drive robots on site.",
+      },
+      {
+        id: "G4",
+        title: "Finish phasing out storage",
+        timing: "On the district's schedule",
+        icon: ShieldCheck,
+        goals: [
+          "Move out or surplus the remaining district storage as agreed",
+          "Reuse the mezzanine and racks as lab storage",
+        ],
+        safety: [],
+        outcome:
+          "The garage, cage, and Rooms 3 and 6 work as one robotics lab.",
+      },
     ],
-    safety: [
-      "PPE cabinet and safety stations at every entry",
-      "Self-contained eyewash stations, which need no plumbing, and first aid kits",
-      "ABC extinguishers throughout",
-      "Marked egress routes kept clear of storage",
+    schedule: [
+      {
+        space: "Garage bay",
+        steps: [
+          { label: "Walkthrough", kind: "prep" },
+          { label: "Floor cleaned and marked", kind: "prep" },
+          { label: "Practice field", kind: "open" },
+          null,
+        ],
+      },
+      {
+        space: "District storage",
+        steps: [
+          { label: "Inventory", kind: "storage" },
+          { label: "Consolidated", kind: "storage" },
+          { label: "Partly moved out", kind: "storage" },
+          { label: "Phased out", kind: "storage" },
+        ],
+      },
     ],
-    outcome:
-      "Students can meet, design, and plan in the space with no new utilities.",
-  },
-  {
-    n: 3,
-    title: "Practice field and build space",
-    timing: "Ahead of the January FRC kickoff",
-    icon: Hammer,
-    goals: [
-      "Install field carpet, polycarbonate perimeter, and driver stations",
-      "Fit out Room 6 with benches, assembly table, and battery charging",
-      "Move hand tools and low-risk equipment in",
-      "Move out the next share of district storage and use the freed racks for lab stock",
-    ],
-    safety: [
-      "Hinged gates on three sides of the field and a marked cross-field egress lane",
-      "Battery charging on a spill tray, away from fabrication",
-      "Portable fume extraction at the electronics bench",
-      "Chip screens at the deburr booth",
-    ],
-    outcome:
-      "The team can build and drive robots on site through build season.",
-  },
-  {
-    n: 4,
-    title: "Fabrication cage",
-    timing: "After permits and contractor work",
-    icon: ShieldCheck,
-    goals: [
-      "Licensed electrical work and the cage exhaust to the roof",
-      "Install the fence, laser curtain, and vision panel",
-      "Commission the laser, press brake, and CNC machines with written procedures",
-      "Finish phasing out district storage as agreed",
-    ],
-    safety: [
-      "Laser and metal fabrication isolated in a fenced cage with a rolling slide gate, laser curtain, and laser-rated vision panel",
-      "Ducted exhaust from the cage to a roof fan, and fume extraction at the MetalFab",
-      "Emergency stops and a shop disconnect at the garage",
-      "Chip and spark screens at metal prep, and dust collection with a cyclone for wood",
-      "A Class D extinguisher beside the aluminum chip drum",
-    ],
-    outcome:
-      "Students learn modern manufacturing in a controlled, supervised zone.",
   },
 ];
 
-/**
- * What happens to each space in each phase, for the plan's schedule chart.
- * One entry per phase 1–4; null means no change in that phase. Taken from the
- * phase goals above.
- */
-export const phaseSchedule: {
-  space: string;
-  steps: (null | { label: string; kind: "prep" | "open" | "storage" })[];
-}[] = [
-  {
-    space: "Room 3",
-    steps: [null, { label: "Set up as classroom", kind: "open" }, null, null],
-  },
-  {
-    space: "Room 6",
-    steps: [null, null, { label: "Benches and charging", kind: "open" }, null],
-  },
-  {
-    space: "Garage bay",
-    steps: [
-      { label: "Walkthrough", kind: "prep" },
-      { label: "Floor cleaned and marked", kind: "prep" },
-      { label: "Practice field", kind: "open" },
-      null,
-    ],
-  },
-  {
-    space: "Cage",
-    steps: [
-      null,
-      null,
-      null,
-      { label: "Fabrication after permits", kind: "open" },
-    ],
-  },
-  {
-    space: "District storage",
-    steps: [
-      { label: "Inventory", kind: "storage" },
-      { label: "Consolidated", kind: "storage" },
-      { label: "Partly moved out", kind: "storage" },
-      { label: "Phased out", kind: "storage" },
-    ],
-  },
-];
+/** The first step of each track: what a yes starts. */
+export const firstSteps = tracks.map((t) => t.steps[0]!);
 
 export const gallery = [
   {

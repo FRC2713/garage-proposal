@@ -23,7 +23,7 @@ const views = [
     id: "field",
     label: "Practice field",
     description:
-      "The 3/4-scale practice field in the garage bay, with its polycarbonate perimeter and driver stations.",
+      "The practice field in the garage bay, full width and 3/4 of full length, with its polycarbonate perimeter and driver stations.",
     eye: ft(489, 406, 13),
     target: ft(462, 440, 6),
   },
