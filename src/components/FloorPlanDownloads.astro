@@ -1,0 +1,31 @@
+---
+import { Download } from "lucide-react";
+import { floorPlanFiles } from "../data/proposal";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <p class="text-sm text-muted-foreground">
+    Printable floor plans, US Letter at 3/32 in = 1 ft. The empty plan has a
+    1&nbsp;ft grid for sketching other layouts.
+  </p>
+  <ul class="flex flex-wrap gap-2">
+    {
+      floorPlanFiles.map((f) => (
+        <li>
+          <a
+            href={`${base}/downloads/${f.file}`}
+            download
+            title={f.detail}
+            class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium ring-1 ring-foreground/15 hover:bg-muted"
+          >
+            <Download className="size-4" aria-hidden="true" />
+            {f.title}
+            <span class="sr-only">(PDF)</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

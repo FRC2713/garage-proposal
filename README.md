@@ -15,6 +15,7 @@ Built from [`FRC2713/hawk-app-template`](https://github.com/FRC2713/hawk-app-tem
 - 3D model (on the gallery page, behind the "View in 3D" switch; `/model/` redirects there): `src/components/islands/GarageViewer.tsx` (React Three Fiber). Camera presets are written in SketchUp feet at the top of that file.
 - Visual rules: `docs/BRANDING.md`.
 - Side-by-side plan (`src/components/LayoutPlan.astro`): `public/images/plan-existing.png` is a crop of the May 2019 MHS second-floor plan PDF, and `plan-proposed.jpg` is a labels-off, top-down parallel view of Option B exported from SketchUp. Room marker positions live in `planRooms` in `src/data/proposal.ts`; re-place them if either image is re-cropped.
+- Floor plan PDFs (download links under the plan on the analysis page): `src/lib/floor-plan-pdf.ts` draws them from the `.glb` at build time, an empty plan on a 1 ft grid and the populated Option B layout. The file list is `floorPlanFiles` in `src/data/proposal.ts`; they are served from `/downloads/`.
 
 ## Update the 3D model
 
