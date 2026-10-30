@@ -915,3 +915,33 @@ export const budgetPoints = [
     url: "https://dev.localheadlinenews.com/?p=199040",
   },
 ];
+
+/**
+ * Floor plan PDFs offered for download, built from the 3D model by
+ * `src/lib/floor-plan-pdf.ts` and served from `/downloads/`.
+ */
+export const floorPlanFiles = [
+  {
+    file: "floor-plan-empty.pdf",
+    kinds: ["empty"],
+    title: "Empty floor plan",
+    detail: "Walls, doors, and a 1 ft grid for sketching layouts",
+  },
+  {
+    file: "floor-plan-populated.pdf",
+    kinds: ["populated"],
+    title: "Populated floor plan",
+    detail: "The Option B layout with equipment",
+  },
+  {
+    file: "floor-plans.pdf",
+    kinds: ["empty", "populated"],
+    title: "Both plans",
+    detail: "Empty and populated, two pages",
+  },
+] as const satisfies {
+  file: string;
+  kinds: readonly ("empty" | "populated")[];
+  title: string;
+  detail: string;
+}[];
